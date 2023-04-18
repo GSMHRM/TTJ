@@ -2,33 +2,34 @@ package com.gsmhrm.anything_back.domain.users.entity;
 
 import com.gsmhrm.anything_back.domain.users.enums.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @Column(name = "email" , nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
+    @Column(name = "password" , nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(name = "name" , nullable = false)
+    private String name;
+
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @PrePersist
-    public void setting() {
-        this.role = this.role == null ? Role.User : this.role;
+    public void updatePassword(String password) {
+        this.password = password;
     }
 }

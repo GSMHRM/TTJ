@@ -3,10 +3,12 @@ package com.gsmhrm.anything_back.domain.users.service;
 import com.gsmhrm.anything_back.domain.users.entity.User;
 import com.gsmhrm.anything_back.domain.users.exception.EmailNotFoundException;
 import com.gsmhrm.anything_back.domain.users.exception.UserEmailException;
+import com.gsmhrm.anything_back.domain.users.exception.WrongPasswordException;
 import com.gsmhrm.anything_back.domain.users.presentation.dto.SignInRequest;
 import com.gsmhrm.anything_back.domain.users.presentation.dto.SignUpRequest;
 import com.gsmhrm.anything_back.domain.users.repository.UserRepository;
 import lombok.AllArgsConstructor;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,14 +32,19 @@ public class UserService {
                 .password(passwordEncoder.encode(signupRequest.getPassword()))
                 .role(signupRequest.getRole())
                 .build();
+
         userRepository.save(user);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public String login(SignInRequest signinRequest) {
+    public String login(SignInRequest signinRequest) throws Exception {
         User user = userRepository
                 .findUserByEmail(signinRequest.getEmail())
                 .orElseThrow(()->new EmailNotFoundException("이메일을 찾지 못했습니다"));
+
+        if (!passwordEncoder.matches(signinRequest.getPassword(), user.getPassword())) {
+            throw new WrongPasswordException("패스워드가 일치 하지 않음");
+        }
 
         return "token";
     }
