@@ -1,4 +1,4 @@
-package com.gsmhrm.anything_back.global.config;
+package com.gsmhrm.anything_back.global.security.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
