@@ -11,5 +11,6 @@ server:
   port: '9010'
 
 jwt:
-  token:
-    secret: {"VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa"}
+  header: Authorization
+  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+  token-validity-in-seconds: 86400
