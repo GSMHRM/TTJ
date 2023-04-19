@@ -8,7 +8,6 @@ import com.gsmhrm.anything_back.domain.users.presentation.dto.SignInRequest;
 import com.gsmhrm.anything_back.domain.users.presentation.dto.SignUpRequest;
 import com.gsmhrm.anything_back.domain.users.repository.UserRepository;
 import lombok.AllArgsConstructor;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +45,7 @@ public class UserService {
             throw new WrongPasswordException("패스워드가 일치 하지 않음");
         }
 
-        return "token";
+        long expireTimeMs = 1000 * 60 * 60L;
+        return "a";
     }
 }
