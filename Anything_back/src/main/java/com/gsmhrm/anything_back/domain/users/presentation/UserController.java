@@ -1,9 +1,11 @@
 package com.gsmhrm.anything_back.domain.users.presentation;
-
+import com.gsmhrm.anything_back.domain.auth.presentation.dto.response.LoginResponse;
 import com.gsmhrm.anything_back.domain.users.presentation.dto.SignInRequest;
 import com.gsmhrm.anything_back.domain.users.presentation.dto.SignUpRequest;
 import com.gsmhrm.anything_back.domain.users.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,11 +26,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> signIn(@RequestBody SignInRequest signinRequest) throws Exception {
-
-        String token = userService.login(signinRequest);
-
-        return ResponseEntity.ok().body(token);
+    public ResponseEntity<LoginResponse> login(@RequestBody @Valid SignInRequest loginRequest) {
+        LoginResponse loginResponse = userService.execute(loginRequest);
+        return new ResponseEntity<>(loginResponse, HttpStatus.OK);
     }
-
 }
