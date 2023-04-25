@@ -20,7 +20,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody SignUpRequest signupRequest) throws Exception {
+    public ResponseEntity<String> signUp(@RequestBody SignUpRequest signupRequest) {
         userService.signUp(signupRequest);
         return ResponseEntity.ok().body("회원가입이 성공했습니다.");
     }
