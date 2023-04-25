@@ -1,12 +1,11 @@
-package com.gsmhrm.anything_back.domain.auth;
+package com.gsmhrm.anything_back.domain.auth.entity;
 
-import jakarta.persistence.Id;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
+import org.springframework.data.redis.core.index.Indexed;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,6 +16,7 @@ public class RefreshToken {
     @Id
     private String email;
 
+    @Indexed
     private String refreshToken;
 
     @TimeToLive

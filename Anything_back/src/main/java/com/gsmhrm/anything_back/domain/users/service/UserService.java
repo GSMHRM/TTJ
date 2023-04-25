@@ -1,6 +1,6 @@
 package com.gsmhrm.anything_back.domain.users.service;
 
-import com.gsmhrm.anything_back.domain.auth.RefreshToken;
+import com.gsmhrm.anything_back.domain.auth.entity.RefreshToken;
 import com.gsmhrm.anything_back.domain.auth.presentation.dto.response.LoginResponse;
 import com.gsmhrm.anything_back.domain.auth.repository.RefreshTokenRepository;
 import com.gsmhrm.anything_back.domain.users.entity.User;
@@ -29,7 +29,7 @@ public class UserService {
     private final JwtProperties jwtProperties;
 
     @Transactional(rollbackFor = Exception.class)
-    public void signUp(SignUpRequest signupRequest) throws Exception {
+    public void signUp(SignUpRequest signupRequest) {
         if (userRepository.existsByEmail(signupRequest.getEmail())) {
             throw new UserEmailException("이메일이 이미 있는 이메일임");
         }
