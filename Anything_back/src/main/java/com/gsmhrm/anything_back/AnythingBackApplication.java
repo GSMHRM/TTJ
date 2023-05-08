@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableCaching
 @EnableConfigurationProperties
 @ConfigurationPropertiesScan
-@EnableRedisRepositories
 @EnableJpaAuditing
 @EnableJpaRepositories
 public class AnythingBackApplication {
