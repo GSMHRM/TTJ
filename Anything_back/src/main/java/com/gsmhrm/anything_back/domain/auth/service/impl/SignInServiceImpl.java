@@ -1,6 +1,8 @@
 package com.gsmhrm.anything_back.domain.auth.service.impl;
 
 import com.gsmhrm.anything_back.domain.auth.entity.RefreshToken;
+import com.gsmhrm.anything_back.domain.auth.exception.MemberNotFoundException;
+import com.gsmhrm.anything_back.domain.auth.exception.MisMatchPasswordException;
 import com.gsmhrm.anything_back.domain.auth.presentation.dto.request.SignInRequest;
 import com.gsmhrm.anything_back.domain.auth.presentation.dto.response.LoginResponse;
 import com.gsmhrm.anything_back.domain.auth.repository.RefreshTokenRepository;
@@ -29,10 +31,10 @@ public class SignInServiceImpl implements UserLoginService {
     public LoginResponse execute(SignInRequest request) {
 
         Member member = memberRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 멤버입니다.")); //TODO : MemberNotFoundException
+                .orElseThrow(MemberNotFoundException::new);
 
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
-            throw new RuntimeException("비번이 일치 하지 않습니다."); //TODO : MisMatchPasswordException
+            throw new MisMatchPasswordException();
         }
 
         String accessToken = tokenProvider.generatedAccessToken(request.getEmail());
