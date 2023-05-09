@@ -2,6 +2,7 @@ package com.gsmhrm.anything_back.domain.auth.presentation.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
 
@@ -9,6 +10,7 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
+@Component
 public class LoginResponse {
 
     private String accessToken;
