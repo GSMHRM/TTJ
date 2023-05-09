@@ -1,7 +1,7 @@
 package com.gsmhrm.anything_back.global.security.auth;
 
-import com.gsmhrm.anything_back.domain.users.entity.User;
-import com.gsmhrm.anything_back.domain.users.repository.UserRepository;
+import com.gsmhrm.anything_back.domain.member.entity.Member;
+import com.gsmhrm.anything_back.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MemberDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findUserByEmail(email)
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+        Member member = memberRepository.findByName(name)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
-        return new MemberDetails(user);
+        return new MemberDetails(member);
     }
 }
