@@ -4,9 +4,11 @@ import com.gsmhrm.anything_back.domain.member.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Getter
 @AllArgsConstructor
+@Component
 @NoArgsConstructor
 public class SignUpRequest {
 
