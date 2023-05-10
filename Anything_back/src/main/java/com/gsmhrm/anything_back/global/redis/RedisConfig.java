@@ -1,6 +1,7 @@
 package com.gsmhrm.anything_back.global.redis;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,11 +18,11 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 @EnableRedisRepositories
 public class RedisConfig {
 
-    // @Value("${redis.host}")
-    private String host =    "127.0.0.1";
+    @Value("${spring.redis.host}")
+    private String host;
 
-    //    @Value("${redis.port}")
-    private int port = 6379;
+    @Value("${spring.redis.port}")
+    private int port;
 
     @Bean
     @ConditionalOnMissingBean(RedisConnectionFactory.class)

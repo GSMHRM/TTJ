@@ -9,6 +9,9 @@ spring:
       ddl-auto: update
   main:
     allow-bean-definition-overriding: 'true'
+  redis:
+    host: ${R_HOST}
+    port: ${R_PORT}
 server:
   port: '9010'
 

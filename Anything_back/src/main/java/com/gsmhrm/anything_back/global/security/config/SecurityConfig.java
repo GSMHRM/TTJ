@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 //인가 정책
-                .requestMatchers(HttpMethod.POST, "/auth/users/**").permitAll()
+                .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/list").authenticated()
                 .anyRequest().denyAll();
         http
