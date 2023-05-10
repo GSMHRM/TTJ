@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/list")
-public class AuthentiController {
+public class TController {
 
     @GetMapping
     public ResponseEntity<String> returnList() {
-        System.out.println(1);
         return new ResponseEntity<>("1" , HttpStatus.OK);
     }
 }
