@@ -9,8 +9,10 @@ import com.gsmhrm.anything_back.domain.member.entity.Member;
 import com.gsmhrm.anything_back.global.security.jwt.TokenProvider;
 import com.gsmhrm.anything_back.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
+@Service
 public class LogoutServiceImpl implements UserLogoutService {
 
     private final UserUtil userUtil;
@@ -26,12 +28,15 @@ public class LogoutServiceImpl implements UserLogoutService {
         RefreshToken refreshToken = refreshTokenRepository.findById(email)
                 .orElseThrow(() -> new  RuntimeException("존재하지 않는 refreshToken"));
 
+        System.out.println("refreshToken = " + refreshToken);
+        
         refreshTokenRepository.delete(refreshToken);
+        inBlackList(member.getEmail(),accessToken);
     }
 
     private void inBlackList(String email, String accessToken) {
         if (blackListRepository.existsById(accessToken)) {
-            throw new RuntimeException("이미 있는 블랙리스트");
+            throw new RuntimeException("이미 토큰이 만료된 토큰임.");
         }
 
         long expiredTime = tokenProvider.getACCESS_TOKEN_EXPIRE_TIME();
