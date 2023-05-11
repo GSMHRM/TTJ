@@ -2,6 +2,7 @@ package com.gsmhrm.anything_back.domain.auth.service.impl;
 
 import com.gsmhrm.anything_back.domain.auth.entity.BlackList;
 import com.gsmhrm.anything_back.domain.auth.entity.RefreshToken;
+import com.gsmhrm.anything_back.domain.auth.exception.NotValidRefreshTokenException;
 import com.gsmhrm.anything_back.domain.auth.repository.BlackListRepository;
 import com.gsmhrm.anything_back.domain.auth.repository.RefreshTokenRepository;
 import com.gsmhrm.anything_back.domain.auth.service.UserLogoutService;
@@ -26,7 +27,7 @@ public class LogoutServiceImpl implements UserLogoutService {
         String email = member.getEmail();
 
         RefreshToken refreshToken = refreshTokenRepository.findById(email)
-                .orElseThrow(() -> new  RuntimeException("존재하지 않는 refreshToken"));
+                .orElseThrow(NotValidRefreshTokenException::new);
 
         System.out.println("refreshToken = " + refreshToken);
         
