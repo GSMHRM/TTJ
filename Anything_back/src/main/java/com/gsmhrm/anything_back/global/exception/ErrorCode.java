@@ -9,6 +9,7 @@ public enum ErrorCode {
 
     EMAIL_ALREADY_EXIST("존재하는 이메일 입니다", 409),
     NAME_ALREADY_EXIST("존재하는 이름 입니다", 409),
+    BLACKLIST_ALREADY_EXIST("블랙리스트에 이미 등록됨", 400),
     EMAIL_NOT_FOUND("존재하지 않는 이메일 입니다", 404),
     MEMBER_NOT_FOUND("존재하지 않는 유저입니다", 404),
     WRONG_PASSWORD("잘못된 비밀번호 입니다", 400),
