@@ -7,26 +7,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@AllArgsConstructor
 @Getter
-@Builder
 @NoArgsConstructor
+@Builder
+@Table(name = "user")
+@AllArgsConstructor
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(nullable = false, name = "email", unique = true)
+    @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false, name = "name", unique = true)
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, name = "password")
+    @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
 }

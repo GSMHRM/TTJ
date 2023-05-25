@@ -1,9 +1,9 @@
 package com.gsmhrm.anything_back.global.filter;
 
+import com.gsmhrm.anything_back.global.exception.handler.ErrorCode;
+import com.gsmhrm.anything_back.global.exception.handler.ErrorMessage;
+import com.gsmhrm.anything_back.global.exception.handler.S3Exception;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gsmhrm.anything_back.global.exception.AnythingException;
-import com.gsmhrm.anything_back.global.exception.ErrorCode;
-import com.gsmhrm.anything_back.global.exception.ErrorMessage;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
@@ -17,7 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-import static com.gsmhrm.anything_back.global.exception.ErrorCode.*;
+import static com.gsmhrm.anything_back.global.exception.handler.ErrorCode.TOKEN_NOT_VALID;
 
 @Component
 @Slf4j
@@ -42,8 +42,8 @@ public class ExceptionFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException ex) {
             log.debug("================= [ ExceptionHandlerFilter ] 에서 ExpiredJwtException 발생 ===================");
-            setErrorResponse(TOKEN_IS_EXPIRED, response);
-        } catch (JwtException | AnythingException ex) {
+            setErrorResponse(ErrorCode.TOKEN_EXPIRATION, response);
+        } catch (JwtException | S3Exception ex) {
             log.debug("================= [ ExceptionHandlerFilter ] 에서 TokenNotValidException 발생 ===================");
             setErrorResponse(TOKEN_NOT_VALID, response);
 //        } catch (Exception ex) {
