@@ -1,8 +1,8 @@
 package com.gsmhrm.anything_back.global.security.jwt;
 
+import com.gsmhrm.anything_back.global.exception.TokenExpiredException;
+import com.gsmhrm.anything_back.global.exception.TokenNotValidException;
 import com.gsmhrm.anything_back.global.security.auth.MemberDetailsService;
-import com.gsmhrm.anything_back.global.security.exception.TokenExpirationException;
-import com.gsmhrm.anything_back.global.security.exception.TokenNotValidException;
 import com.gsmhrm.anything_back.global.security.jwt.properties.JwtProperties;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -70,13 +70,13 @@ public class TokenProvider {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException e) {
-            throw new TokenExpirationException();
+            throw new TokenExpiredException();
         } catch (JwtException e) {
             throw new TokenNotValidException();
         }
     }
 
-    public ZonedDateTime getExpiredAtToken(String token, String secret) {
+    public ZonedDateTime getExpiredAtToken() {
         return ZonedDateTime.now().plusSeconds(ACCESS_TOKEN_EXPIRE_TIME);
     }
 
@@ -99,5 +99,9 @@ public class TokenProvider {
     public UsernamePasswordAuthenticationToken authenticationToken(String email) {
         UserDetails userDetails = memberDetailsService.loadUserByUsername(email);
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+    }
+
+    public ZonedDateTime getExpiredAtToken(String token, String secret) {
+        return ZonedDateTime.now().plusSeconds(ACCESS_TOKEN_EXPIRE_TIME);
     }
 }

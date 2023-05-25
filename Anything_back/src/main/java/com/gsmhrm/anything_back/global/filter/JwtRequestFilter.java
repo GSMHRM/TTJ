@@ -1,6 +1,6 @@
 package com.gsmhrm.anything_back.global.filter;
 
-import com.gsmhrm.anything_back.global.security.exception.TokenNotValidException;
+import com.gsmhrm.anything_back.global.exception.TokenNotValidException;
 import com.gsmhrm.anything_back.global.security.jwt.TokenProvider;
 import com.gsmhrm.anything_back.global.security.jwt.properties.JwtProperties;
 import jakarta.servlet.FilterChain;

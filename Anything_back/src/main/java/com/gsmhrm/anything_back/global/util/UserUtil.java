@@ -13,8 +13,8 @@ public class UserUtil {
     private final MemberRepository memberRepository;
 
     public Member currentUser() {
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        return memberRepository.findByName(name)
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return memberRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("로그인 안됨"));
     }
 }

@@ -18,10 +18,10 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 @EnableRedisRepositories
 public class RedisConfig {
 
-    @Value("${spring.redis.host}")
+    @Value("${spring.data.redis.host}")
     private String host;
 
-    @Value("${spring.redis.port}")
+    @Value("${spring.data.redis.port}")
     private int port;
 
     @Bean
@@ -41,8 +41,7 @@ public class RedisConfig {
     }
 
     @Bean
-    ZSetOperations<String, Object> zSetOperation() {
+        ZSetOperations<String, Object> zSetOperation() {
         return redisTemplate().opsForZSet();
     }
 }
-
