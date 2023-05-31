@@ -1,6 +1,9 @@
 package com.gsmhrm.anything_back.domain.auth.service;
 
 import com.gsmhrm.anything_back.domain.auth.entity.RefreshToken;
+import com.gsmhrm.anything_back.domain.auth.exception.DuplicatedEmailException;
+import com.gsmhrm.anything_back.domain.auth.exception.MisMatchPasswordException;
+import com.gsmhrm.anything_back.domain.auth.exception.NotValidEmailException;
 import com.gsmhrm.anything_back.domain.auth.presentation.dto.request.SignInRequest;
 import com.gsmhrm.anything_back.domain.auth.presentation.dto.response.SignInResponse;
 import com.gsmhrm.anything_back.domain.auth.repository.RefreshTokenRepository;
@@ -25,10 +28,10 @@ public class MemberLoginService {
     public SignInResponse execute(SignInRequest request) {
 
         Member member = memberRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("이메일이 없음"));
+                .orElseThrow(NotValidEmailException::new);
 
         if(!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
-            throw new RuntimeException("패스워드가 일치하지 않음");
+            throw new MisMatchPasswordException();
         }
 
         String accessToken = tokenProvider.generatedAccessToken(request.getEmail());
