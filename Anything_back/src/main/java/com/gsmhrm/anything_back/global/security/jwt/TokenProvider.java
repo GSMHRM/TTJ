@@ -1,7 +1,7 @@
 package com.gsmhrm.anything_back.global.security.jwt;
 
-import com.gsmhrm.anything_back.global.exception.TokenExpiredException;
-import com.gsmhrm.anything_back.global.exception.TokenNotValidException;
+import com.gsmhrm.anything_back.global.security.exception.TokenExpiredException;
+import com.gsmhrm.anything_back.global.security.exception.TokenNotValidException;
 import com.gsmhrm.anything_back.global.security.auth.MemberDetailsService;
 import com.gsmhrm.anything_back.global.security.jwt.properties.JwtProperties;
 import io.jsonwebtoken.*;
