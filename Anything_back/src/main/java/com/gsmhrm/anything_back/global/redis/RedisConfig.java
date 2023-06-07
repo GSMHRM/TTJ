@@ -41,7 +41,7 @@ public class RedisConfig {
     }
 
     @Bean
-        ZSetOperations<String, Object> zSetOperation() {
+    ZSetOperations<String, Object> zSetOperation() {
         return redisTemplate().opsForZSet();
     }
 }

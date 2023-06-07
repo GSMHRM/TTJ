@@ -7,12 +7,12 @@ import com.gsmhrm.anything_back.domain.auth.exception.RefreshTokenNotFoundExcept
 import com.gsmhrm.anything_back.domain.auth.repository.BlackListRepository;
 import com.gsmhrm.anything_back.domain.auth.repository.RefreshTokenRepository;
 import com.gsmhrm.anything_back.domain.member.entity.Member;
+import com.gsmhrm.anything_back.global.annotation.RollbackService;
 import com.gsmhrm.anything_back.global.security.jwt.TokenProvider;
 import com.gsmhrm.anything_back.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-@Service
+@RollbackService
 @RequiredArgsConstructor
 public class MemberLogoutService {
 

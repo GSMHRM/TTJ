@@ -1,7 +1,6 @@
 package com.gsmhrm.anything_back.domain.auth.service;
 
 import com.gsmhrm.anything_back.domain.auth.entity.RefreshToken;
-import com.gsmhrm.anything_back.domain.auth.exception.DuplicatedEmailException;
 import com.gsmhrm.anything_back.domain.auth.exception.MisMatchPasswordException;
 import com.gsmhrm.anything_back.domain.auth.exception.NotValidEmailException;
 import com.gsmhrm.anything_back.domain.auth.presentation.dto.request.SignInRequest;
@@ -9,13 +8,13 @@ import com.gsmhrm.anything_back.domain.auth.presentation.dto.response.SignInResp
 import com.gsmhrm.anything_back.domain.auth.repository.RefreshTokenRepository;
 import com.gsmhrm.anything_back.domain.member.entity.Member;
 import com.gsmhrm.anything_back.domain.member.repository.MemberRepository;
+import com.gsmhrm.anything_back.global.annotation.RollbackService;
 import com.gsmhrm.anything_back.global.security.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@RollbackService
 @RequiredArgsConstructor
 public class MemberLoginService {
 

@@ -1,4 +1,4 @@
-package com.gsmhrm.anything_back.global.exception.handler;
+package com.gsmhrm.anything_back.global.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

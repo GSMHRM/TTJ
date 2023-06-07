@@ -4,15 +4,15 @@ import com.gsmhrm.anything_back.domain.auth.entity.RefreshToken;
 import com.gsmhrm.anything_back.domain.auth.exception.RefreshTokenNotFoundException;
 import com.gsmhrm.anything_back.domain.auth.presentation.dto.response.NewTokenResponse;
 import com.gsmhrm.anything_back.domain.auth.repository.RefreshTokenRepository;
-import com.gsmhrm.anything_back.global.exception.TokenNotValidException;
+import com.gsmhrm.anything_back.global.annotation.RollbackService;
+import com.gsmhrm.anything_back.global.security.exception.TokenNotValidException;
 import com.gsmhrm.anything_back.global.security.jwt.TokenProvider;
 import com.gsmhrm.anything_back.global.security.jwt.properties.JwtProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 
-@Service
+@RollbackService
 @RequiredArgsConstructor
 public class NewTokenService {
 
