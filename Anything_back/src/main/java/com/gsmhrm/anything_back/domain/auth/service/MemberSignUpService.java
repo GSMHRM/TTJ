@@ -5,12 +5,12 @@ import com.gsmhrm.anything_back.domain.auth.presentation.dto.request.SignUpReque
 import com.gsmhrm.anything_back.domain.email.entity.Email;
 import com.gsmhrm.anything_back.domain.member.entity.Member;
 import com.gsmhrm.anything_back.domain.member.repository.MemberRepository;
+import com.gsmhrm.anything_back.global.annotation.RollbackService;
 import com.gsmhrm.anything_back.global.util.EmailUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
-@Service
+@RollbackService
 @RequiredArgsConstructor
 public class MemberSignUpService {
 
