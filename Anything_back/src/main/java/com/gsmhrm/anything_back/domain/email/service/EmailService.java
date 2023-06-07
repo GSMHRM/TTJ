@@ -3,18 +3,18 @@ package com.gsmhrm.anything_back.domain.email.service;
 import com.gsmhrm.anything_back.domain.email.entity.Email;
 import com.gsmhrm.anything_back.domain.email.presentation.dto.EmailSendRequest;
 import com.gsmhrm.anything_back.domain.email.repository.EmailRepository;
+import com.gsmhrm.anything_back.global.annotation.ReadOnlyService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.Random;
 
-@Service
+@ReadOnlyService
 @RequiredArgsConstructor
 public class EmailService {
 
