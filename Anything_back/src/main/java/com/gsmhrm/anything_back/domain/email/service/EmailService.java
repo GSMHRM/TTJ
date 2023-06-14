@@ -1,6 +1,8 @@
 package com.gsmhrm.anything_back.domain.email.service;
 
+import com.gsmhrm.anything_back.domain.auth.exception.UserNotFoundException;
 import com.gsmhrm.anything_back.domain.email.entity.Email;
+import com.gsmhrm.anything_back.domain.email.exception.MisMatchAuthKeyException;
 import com.gsmhrm.anything_back.domain.email.presentation.dto.EmailSendRequest;
 import com.gsmhrm.anything_back.domain.email.repository.EmailRepository;
 import com.gsmhrm.anything_back.global.annotation.ReadOnlyService;
@@ -23,7 +25,7 @@ public class EmailService {
 
     public void execute(String email, String authKey) {
 
-        Email emailAuth = emailRepository.findById(email).orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없음"));
+        Email emailAuth = emailRepository.findById(email).orElseThrow(UserNotFoundException::new);
         checkAuthKey(emailAuth, authKey);
         emailAuth.updateAuthentication(true);
         emailRepository.save(emailAuth);
@@ -31,7 +33,7 @@ public class EmailService {
 
     private void checkAuthKey(Email email, String authKey) {
         if (!Objects.equals(email.getRandomValue(), authKey))
-            throw new RuntimeException("인증번호가 일치 하지 않음");
+            throw new MisMatchAuthKeyException();
     }
 
     @Transactional(rollbackFor = Exception.class)
