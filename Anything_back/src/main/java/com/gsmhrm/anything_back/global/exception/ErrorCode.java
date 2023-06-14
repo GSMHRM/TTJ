@@ -10,6 +10,7 @@ public enum ErrorCode {
     EMAIL_MISMATCH("이메일이 일치하지 않습니다", 400),
     WRONG_PASSWORD("잘못된 비밀번호 입니다", 400),
     EMAIL_NOT_VERIFIED("이메일이 인증되지 않았습니다", 401),
+    MISMATCH_AUTHKEY("인증키가 일치 하지 않습니다.", 400),
     TOKEN_EXPIRATION("토큰이 만료 되었습니다", 401),
     UNKNOWN_ERROR("알 수 없는 에러입니다.", 500),
     TOKEN_NOT_VALID("토큰이 유효하지 않습니다", 401),

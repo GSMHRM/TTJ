@@ -24,7 +24,7 @@ public class AuthController {
         private final MemberLogoutService logoutService;
         private final NewTokenService newTokenService;
 
-        @GetMapping("/signup")
+        @PostMapping("/signup")
         public ResponseEntity<?> signUp(@Valid @RequestBody SignUpRequest request) {
             signUpService.execute(request);
             return new ResponseEntity<>(HttpStatus.CREATED);

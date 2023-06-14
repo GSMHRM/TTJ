@@ -29,28 +29,26 @@ public class Control {
     private final DeleteTodoService deleteTodoService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createToDo(@RequestBody CreatedRequest createdRequest) {
+    public ResponseEntity<Void> createToDo(@RequestBody CreatedRequest createdRequest) {
         createTodoService.execute(createdRequest);
-
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<?>> todayList() {
+    public ResponseEntity<List<ToDoList>> todayList() {
         List<ToDoList> todayList = toDayListService.TodayList();
 
         return new ResponseEntity<>(todayList, HttpStatus.OK);
     }
 
     @PatchMapping("/updateCompleted")
-    public ResponseEntity<?> updateCompleted(@RequestParam Long id, @RequestBody UpdatedCompletedRequest completedRequest) {
+    public ResponseEntity<Void> updateCompleted(@RequestParam Long id, @RequestBody UpdatedCompletedRequest completedRequest) {
         completeService.execute(id, completedRequest);
-
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteTodo(@RequestParam Long id) {
+    public ResponseEntity<Void> deleteTodo(@RequestParam Long id) {
         deleteTodoService.execute(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
