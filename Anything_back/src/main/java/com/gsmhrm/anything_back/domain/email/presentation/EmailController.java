@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/email")
 @RequiredArgsConstructor
 public class EmailController {
-
     private final EmailService emailService;
 
     @PostMapping

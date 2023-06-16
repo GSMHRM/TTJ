@@ -27,9 +27,11 @@ public class SecurityConfig {
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception { //DSL 사용 보안구성
         http
+                .cors().and()
+                .csrf().disable();
+
+        http
                 .httpBasic().disable() //UI, UX Disable
-                .csrf().disable()//크로스 사이트 기능
-                .cors().and() //도메인이 다를때 허용
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -38,6 +40,7 @@ public class SecurityConfig {
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/email/**").permitAll()
+                .requestMatchers("/test/**").permitAll()
                 .anyRequest().denyAll();
         http
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
