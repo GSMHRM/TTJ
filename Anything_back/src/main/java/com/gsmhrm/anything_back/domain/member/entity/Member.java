@@ -28,4 +28,7 @@ public class Member {
     @Column(nullable = false)
     private String password;
 
+    public void changePassword(String password) {
+        this.password = password;
+    }
 }
