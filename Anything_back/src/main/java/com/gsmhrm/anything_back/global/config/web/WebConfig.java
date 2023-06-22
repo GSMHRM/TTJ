@@ -15,8 +15,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-import static com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS;
-
 @RequiredArgsConstructor
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -24,10 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000",
-                                "http://localhost:9040",
-                                "https://localhost:3000",
-                                "https://notify-1.netlify.app/")
+                .allowedOriginPatterns("*")
                 .allowedMethods(
                         HttpMethod.GET.name(),
                         HttpMethod.HEAD.name(),
@@ -49,7 +44,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public HttpMessageConverter<?> htmlEscapingConverter() {
         ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.configure(ALLOW_UNQUOTED_CONTROL_CHARS, true);
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         MappingJackson2HttpMessageConverter htmlEscapingConverter = new MappingJackson2HttpMessageConverter();
