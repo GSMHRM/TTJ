@@ -1,6 +1,6 @@
 package com.gsmhrm.anything_back.domain.email.presentation;
 
-import com.gsmhrm.anything_back.domain.email.presentation.dto.EmailSendRequest;
+import com.gsmhrm.anything_back.domain.email.presentation.dto.request.EmailSendRequest;
 import com.gsmhrm.anything_back.domain.email.service.EmailService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
