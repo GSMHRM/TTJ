@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @AllArgsConstructor
-@Component
 @NoArgsConstructor
 public class SignUpRequest {
 
