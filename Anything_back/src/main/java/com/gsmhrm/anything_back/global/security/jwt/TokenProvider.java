@@ -46,7 +46,7 @@ public class TokenProvider {
         byte[] bytes = secretKey.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(bytes);
     }
-    //TODO : 분류
+
     private String generateToken(String userEmail, TokenType tokenType, String secret, long expireTime) {
         final Claims claims = Jwts.claims();
         claims.put(TokenClaimName.USER_EMAIL.value, userEmail);
