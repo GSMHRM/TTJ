@@ -1,4 +1,4 @@
-package com.gsmhrm.anything_back.domain.email.presentation.dto;
+package com.gsmhrm.anything_back.domain.email.presentation.dto.request;
 
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;

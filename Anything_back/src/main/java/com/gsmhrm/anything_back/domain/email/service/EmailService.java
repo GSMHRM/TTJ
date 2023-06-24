@@ -3,7 +3,7 @@ package com.gsmhrm.anything_back.domain.email.service;
 import com.gsmhrm.anything_back.domain.auth.exception.UserNotFoundException;
 import com.gsmhrm.anything_back.domain.email.entity.Email;
 import com.gsmhrm.anything_back.domain.email.exception.MisMatchAuthKeyException;
-import com.gsmhrm.anything_back.domain.email.presentation.dto.EmailSendRequest;
+import com.gsmhrm.anything_back.domain.email.presentation.dto.request.EmailSendRequest;
 import com.gsmhrm.anything_back.domain.email.repository.EmailRepository;
 import com.gsmhrm.anything_back.global.annotation.ReadOnlyService;
 import jakarta.mail.MessagingException;
