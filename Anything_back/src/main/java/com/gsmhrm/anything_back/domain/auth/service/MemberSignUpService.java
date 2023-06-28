@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class MemberSignUpService {
 
      private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
+     private final PasswordEncoder passwordEncoder;
      private final EmailUtil emailUtil;
 
      public void execute(SignUpRequest request) {
