@@ -17,7 +17,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.OAS_30)
                 .useDefaultResponseMessages(true) // Swagger 에서 제공해주는 기본 응답 코드 (200, 401, 403, 404) 등의 노출 여부
-                .apiInfo(apiInfo()) // Swagger UI 로 노출할 정보
+                .apiInfo(apiInfo()) // Swagger   UI 로 노출할 정보
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any()) // apis 에 위치하는 API 중 특정 path 를 선택
