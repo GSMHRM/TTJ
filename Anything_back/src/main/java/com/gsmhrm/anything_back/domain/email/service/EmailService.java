@@ -2,6 +2,7 @@ package com.gsmhrm.anything_back.domain.email.service;
 
 import com.gsmhrm.anything_back.domain.auth.exception.UserNotFoundException;
 import com.gsmhrm.anything_back.domain.email.entity.Email;
+import com.gsmhrm.anything_back.domain.email.exception.ManyRequestForEmailException;
 import com.gsmhrm.anything_back.domain.email.exception.MisMatchAuthKeyException;
 import com.gsmhrm.anything_back.domain.email.presentation.dto.request.EmailSendRequest;
 import com.gsmhrm.anything_back.domain.email.repository.EmailRepository;
@@ -57,7 +58,7 @@ public class EmailService {
                 .build();
 
         if(emailAuth.getAttemptCount() >= 3) {
-            throw new RuntimeException("이메일은 최대 3회 까지 요청이 가능합니다.");
+            throw new ManyRequestForEmailException();
         }
         emailAuth.updateRandomValue(authKey);
         emailAuth.increaseAttemptCount();
