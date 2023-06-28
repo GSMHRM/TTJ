@@ -22,9 +22,4 @@ public class AnythingBackApplication {
     public static void main(String[] args) {
         SpringApplication.run(AnythingBackApplication.class, args);
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }
