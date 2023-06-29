@@ -9,6 +9,6 @@ import lombok.Getter;
 public class EmailCheckDto {
 
 
-    @NotBlank(message = "인증키를 입력해주세요")
+    @NotBlank(  message = "인증키를 입력해주세요")
     private String key;
 }
