@@ -2,6 +2,7 @@ package com.gsmhrm.anything_back.global.security.config;
 
 import com.gsmhrm.anything_back.global.filter.ExceptionFilter;
 import com.gsmhrm.anything_back.global.filter.JwtRequestFilter;
+import com.gsmhrm.anything_back.global.logger.filter.LogRequestFilter;
 import com.gsmhrm.anything_back.global.security.handler.AccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,7 @@ public class SecurityConfig {
 
     private final JwtRequestFilter jwtRequestFilter;
     private final ExceptionFilter exceptionFilter;
+    private final LogRequestFilter logRequestFilter;
 
 
     @Bean
@@ -55,7 +57,8 @@ public class SecurityConfig {
                 .anyRequest().denyAll();
         http
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(exceptionFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(exceptionFilter, JwtRequestFilter.class)
+                .addFilterBefore(logRequestFilter, ExceptionFilter.class);
         return http.build();
     }
 
