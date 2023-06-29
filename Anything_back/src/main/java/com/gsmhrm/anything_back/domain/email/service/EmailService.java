@@ -4,6 +4,7 @@ import com.gsmhrm.anything_back.domain.auth.exception.UserNotFoundException;
 import com.gsmhrm.anything_back.domain.email.entity.Email;
 import com.gsmhrm.anything_back.domain.email.exception.ManyRequestForEmailException;
 import com.gsmhrm.anything_back.domain.email.exception.MisMatchAuthKeyException;
+import com.gsmhrm.anything_back.domain.email.presentation.dto.request.EmailCheckDto;
 import com.gsmhrm.anything_back.domain.email.presentation.dto.request.EmailSendRequest;
 import com.gsmhrm.anything_back.domain.email.repository.EmailRepository;
 import com.gsmhrm.anything_back.global.annotation.ReadOnlyService;
@@ -24,10 +25,9 @@ public class EmailService {
     private final EmailRepository emailRepository;
     private final JavaMailSender javaMailSender;
 
-    public void execute(String email, String authKey) {
-
-        Email emailAuth = emailRepository.findById(email).orElseThrow(UserNotFoundException::new);
-        checkAuthKey(emailAuth, authKey);
+    public void execute(EmailCheckDto emailCheckDto) {
+        Email emailAuth = emailRepository.findByRandomValue(emailCheckDto.getKey()).orElseThrow(UserNotFoundException::new);
+        checkAuthKey(emailAuth, emailCheckDto.getKey());
         emailAuth.updateAuthentication(true);
         emailRepository.save(emailAuth);
     }

@@ -1,9 +1,9 @@
 package com.gsmhrm.anything_back.domain.email.presentation;
 
+import com.gsmhrm.anything_back.domain.email.presentation.dto.request.EmailCheckDto;
 import com.gsmhrm.anything_back.domain.email.presentation.dto.request.EmailSendRequest;
 import com.gsmhrm.anything_back.domain.email.service.EmailService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,8 @@ public class EmailController {
     }
 
     @RequestMapping(method = RequestMethod.HEAD)
-    public ResponseEntity<Void> authEmail(@Email @RequestParam String email, @RequestParam String authKey){
-        emailService.execute(email, authKey);
+    public ResponseEntity<Void> authEmail(@RequestBody @Valid EmailCheckDto emailCheckDto){
+        emailService.execute(emailCheckDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
