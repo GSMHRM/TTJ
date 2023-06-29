@@ -4,6 +4,7 @@ import com.gsmhrm.anything_back.domain.auth.exception.UserNotFoundException;
 import com.gsmhrm.anything_back.domain.email.entity.Email;
 import com.gsmhrm.anything_back.domain.email.exception.ManyRequestForEmailException;
 import com.gsmhrm.anything_back.domain.email.exception.MisMatchAuthKeyException;
+import com.gsmhrm.anything_back.domain.email.exception.NotSendEmailException;
 import com.gsmhrm.anything_back.domain.email.presentation.dto.request.EmailCheckDto;
 import com.gsmhrm.anything_back.domain.email.presentation.dto.request.EmailSendRequest;
 import com.gsmhrm.anything_back.domain.email.repository.EmailRepository;
@@ -11,6 +12,7 @@ import com.gsmhrm.anything_back.global.annotation.ReadOnlyService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,7 @@ import java.util.Random;
 
 @ReadOnlyService
 @RequiredArgsConstructor
+@Slf4j
 public class EmailService {
 
     private final EmailRepository emailRepository;
@@ -73,7 +76,9 @@ public class EmailService {
             messageHelper.setText(content, true);
             javaMailSender.send(mimeMessage);
         } catch (MessagingException e) {
-            throw new RuntimeException("이메일을 보내는데 실패했습니다.");
+            log.error("Email 전송 실패 = " + emailAuth.getEmail());
+            throw new NotSendEmailException();
         }
+        log.info("Email 전송 = " + emailAuth.getEmail());
     }
 }
