@@ -23,11 +23,14 @@ public class Plan {
     private Member member;
 
     @Column(nullable = false)
+    @Setter
     private String title;
 
     @Column(nullable = false)
+    @Setter
     private String content;
 
+    @Setter
     private Boolean check;
 
     private LocalDateTime createTime;
