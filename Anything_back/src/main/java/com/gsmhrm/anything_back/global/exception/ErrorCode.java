@@ -21,7 +21,9 @@ public enum ErrorCode {
     EMAIL_ALREADY_EXIST("존재하는 이메일 입니다", 409),
     MANY_REQUEST_EMAIL_AUTH("이메일은 15분에 최대 3회까지만 발송됩니다", 429),
     CANT_SEND_EMAIL("이메일을 보내는데 실패했습니다." , 400),
-    NOT_FOUND_PLAN("게시물을 찾을수 없습니다.", 404);
+    NOT_FOUND_PLAN("게시물을 찾을수 없습니다.", 404),
+    NO_AUTH_DELETE("이 계획을 지울 권한이 없습니다.", 403),
+    NO_AUTH_EDIT("이 계획을 수정할 권한이 없습니다.", 403);
 
     private final String message;
     private final int status;
