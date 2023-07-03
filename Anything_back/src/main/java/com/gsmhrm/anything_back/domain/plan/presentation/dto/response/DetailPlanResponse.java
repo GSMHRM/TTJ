@@ -1,0 +1,23 @@
+package com.gsmhrm.anything_back.domain.plan.presentation.dto.response;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Builder
+@AllArgsConstructor
+public class DetailPlanResponse {
+
+    private String title;
+
+    private String content;
+
+    private Boolean check;
+
+    private LocalDateTime createDate;
+
+    private LocalDateTime editedDate;
+}

@@ -2,9 +2,9 @@ package com.gsmhrm.anything_back.domain.plan.presentation;
 
 import com.gsmhrm.anything_back.domain.plan.presentation.dto.request.CreatePlanRequest;
 import com.gsmhrm.anything_back.domain.plan.presentation.dto.request.EditPlanRequest;
-import com.gsmhrm.anything_back.domain.plan.service.CreatePlanService;
-import com.gsmhrm.anything_back.domain.plan.service.DeletePlanService;
-import com.gsmhrm.anything_back.domain.plan.service.EditPlanService;
+import com.gsmhrm.anything_back.domain.plan.presentation.dto.response.DetailPlanResponse;
+import com.gsmhrm.anything_back.domain.plan.presentation.dto.response.ListPlanResponse;
+import com.gsmhrm.anything_back.domain.plan.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +22,10 @@ public class PlanController {
 
     private final DeletePlanService deletePlanService;
 
+    private final PlanListService planListService;
+
+    private final PlanDetailService planDetailService;
+
     @PostMapping
     public ResponseEntity<Void> createPlan(@RequestBody @Valid CreatePlanRequest createPlanRequest) {
         createPlanService.execute(createPlanRequest);
@@ -38,5 +42,17 @@ public class PlanController {
     public ResponseEntity<Void> deletePlan(@PathVariable Long id) {
         deletePlanService.execute(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<ListPlanResponse> getList() {
+        var list = planListService.execute();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DetailPlanResponse> getDetailPlan(@PathVariable Long id) {
+        var detail = planDetailService.execute(id);
+        return new ResponseEntity<>(detail, HttpStatus.OK);
     }
 }
