@@ -1,6 +1,7 @@
 package com.gsmhrm.anything_back.domain.plan.entity;
 
 import com.gsmhrm.anything_back.domain.member.entity.Member;
+import com.gsmhrm.anything_back.domain.plan.presentation.dto.request.EditPlanRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,17 +24,19 @@ public class Plan {
     private Member member;
 
     @Column(nullable = false)
-    @Setter
     private String title;
 
     @Column(nullable = false)
-    @Setter
     private String content;
 
-    @Setter
     private Boolean check;
 
     private LocalDateTime createTime;
 
     private LocalDateTime editTime;
+    public void editPlan(EditPlanRequest editPlanRequest, Boolean check) {
+        this.title = editPlanRequest.getTitle();
+        this.content = editPlanRequest.getContent();
+        this.check = check;
+    }
 }
