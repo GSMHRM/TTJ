@@ -29,14 +29,14 @@ public class Plan {
     @Column(nullable = false)
     private String content;
 
-    private Boolean check;
+    private Boolean completed;
 
     private LocalDateTime createTime;
 
     private LocalDateTime editTime;
-    public void editPlan(EditPlanRequest editPlanRequest, Boolean check) {
+    public void editPlan(EditPlanRequest editPlanRequest, Boolean completed) {
         this.title = editPlanRequest.getTitle();
         this.content = editPlanRequest.getContent();
-        this.check = check;
+        this.completed = completed;
     }
 }
