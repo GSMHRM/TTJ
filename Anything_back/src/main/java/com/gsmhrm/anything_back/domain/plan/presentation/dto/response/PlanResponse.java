@@ -10,11 +10,14 @@ import lombok.Getter;
 @AllArgsConstructor
 public class PlanResponse {
 
+    private Long planId;
+
     private String title;
 
     public static PlanResponse planResponse(Plan plan) {
 
         return PlanResponse.builder()
+                .planId(plan.getId())
                 .title(plan.getTitle())
                 .build();
     }

@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class DetailPlanResponse {
 
+    private Long planId;
+
     private String title;
 
     private String content;
