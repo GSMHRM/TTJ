@@ -1,6 +1,8 @@
 package com.gsmhrm.anything_back.global.util;
 
 import com.gsmhrm.anything_back.domain.email.entity.Email;
+import com.gsmhrm.anything_back.domain.email.exception.ExistEmailException;
+import com.gsmhrm.anything_back.domain.email.exception.NotAuthenticationEmailException;
 import com.gsmhrm.anything_back.domain.email.repository.EmailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,12 +15,12 @@ public class EmailUtil {
 
     public Email getEmail(String email) {
         return emailRepository.findById(email)
-                .orElseThrow(() -> new RuntimeException("유효 하지 않은 이메일"));
+                .orElseThrow(ExistEmailException::new);
     }
 
     public void checkEmailAuthentication(Email emailAuth) {
         if(!emailAuth.getAuthentication()) {
-            throw new RuntimeException("유효 하지 않은 이메일");
+            throw new NotAuthenticationEmailException();
         }
     }
 }
