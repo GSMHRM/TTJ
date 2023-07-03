@@ -25,7 +25,7 @@ public class PlanDetailService  {
         return DetailPlanResponse.builder()
                 .title(plan.getTitle())
                 .content(plan.getContent())
-                .check(plan.getCheck())
+                .check(plan.getCompleted())
                 .createDate(plan.getCreateTime())
                 .editedDate(plan.getEditTime())
                 .build();

@@ -22,7 +22,7 @@ public class CreatePlanService {
                 .member(util.currentUser())
                 .title(createPlanRequest.getTitle())
                 .content(createPlanRequest.getContent())
-                .check(false)
+                .completed(false)
                 .createTime(LocalDateTime.now())
                 .editTime(LocalDateTime.now())
                 .build();
