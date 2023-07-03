@@ -17,9 +17,13 @@ public class EditPlanService {
         Plan plan = planRepository.findById(id)
                 .orElseThrow(NotFoundPlanException::new);
 
-        plan.setTitle(editPlanRequest.getTitle());
-        plan.setTitle(editPlanRequest.getContent());
-        plan.setCheck(editPlanRequest.getCheck());
+        Boolean check = editPlanRequest.getCheck();
+
+        if (check == null) {
+            check = plan.getCheck();
+        }
+
+        plan.editPlan(editPlanRequest, check);
 
         planRepository.save(plan);
     }
