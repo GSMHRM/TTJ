@@ -53,6 +53,7 @@ public class SecurityConfig {
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/email/**").permitAll()
                 .requestMatchers("/plan/**", "/plan").authenticated()
+                .requestMatchers("/user/**", "/user").authenticated()
                 .anyRequest().denyAll();
         http
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
