@@ -38,5 +38,6 @@ public class Plan {
         this.title = editPlanRequest.getTitle();
         this.content = editPlanRequest.getContent();
         this.completed = completed;
+        this.editTime = LocalDateTime.now();
     }
 }
