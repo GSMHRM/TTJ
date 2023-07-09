@@ -30,8 +30,6 @@ public class SecurityConfig {
     private final JwtRequestFilter jwtRequestFilter;
     private final ExceptionFilter exceptionFilter;
     private final LogRequestFilter logRequestFilter;
-
-
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception { //DSL 사용 보안구성
         http
@@ -41,7 +39,8 @@ public class SecurityConfig {
                 .rememberMe().disable()
                 .cors().configurationSource(corsConfigurationSource()).and()
                 .csrf().disable();
-
+        http
+                .oauth2Login();
         http
                 .httpBasic().disable() //UI, UX Disable
                 .formLogin().disable()
