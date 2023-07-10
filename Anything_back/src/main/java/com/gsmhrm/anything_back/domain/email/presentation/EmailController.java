@@ -21,7 +21,7 @@ public class EmailController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/auth")
+    @RequestMapping(value = "/auth", method = RequestMethod.HEAD)
     public ResponseEntity<Void> authEmail(@RequestBody @Valid EmailCheckDto emailCheckDto){
         emailService.execute(emailCheckDto);
         return new ResponseEntity<>(HttpStatus.OK);
