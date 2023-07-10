@@ -7,5 +7,4 @@ import java.util.Optional;
 
 public interface EmailRepository extends CrudRepository<Email, String> {
 
-    Optional<Email> findByRandomValue(String authKey);
 }

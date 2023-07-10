@@ -29,7 +29,8 @@ public class EmailService {
     private final JavaMailSender javaMailSender;
 
     public void execute(EmailCheckDto emailCheckDto) {
-        Email emailAuth = emailRepository.findByRandomValue(emailCheckDto.getKey()).orElseThrow(UserNotFoundException::new);
+        Email emailAuth = emailRepository.findById(emailCheckDto.getEmail())
+                        .orElseThrow(UserNotFoundException::new);
         checkAuthKey(emailAuth, emailCheckDto.getKey());
         emailAuth.updateAuthentication(true);
         emailRepository.save(emailAuth);
