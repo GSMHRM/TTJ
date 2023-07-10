@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -30,6 +31,7 @@ public class SecurityConfig {
     private final JwtRequestFilter jwtRequestFilter;
     private final ExceptionFilter exceptionFilter;
     private final LogRequestFilter logRequestFilter;
+
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception { //DSL 사용 보안구성
         http
@@ -40,7 +42,7 @@ public class SecurityConfig {
                 .cors().configurationSource(corsConfigurationSource()).and()
                 .csrf().disable();
         http
-                .oauth2Login();
+                .oauth2Login().disable();
         http
                 .httpBasic().disable() //UI, UX Disable
                 .formLogin().disable()
@@ -53,6 +55,7 @@ public class SecurityConfig {
                 .requestMatchers("/email/**").permitAll()
                 .requestMatchers("/plan/**", "/plan").authenticated()
                 .requestMatchers("/user/**", "/user").authenticated()
+                .requestMatchers("/swagger-ui.html").permitAll()
                 .anyRequest().denyAll();
         http
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
