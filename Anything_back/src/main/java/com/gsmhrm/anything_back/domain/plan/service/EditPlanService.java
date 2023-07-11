@@ -9,6 +9,8 @@ import com.gsmhrm.anything_back.global.annotation.RollbackService;
 import com.gsmhrm.anything_back.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Objects;
+
 @RollbackService
 @RequiredArgsConstructor
 public class EditPlanService {
@@ -17,17 +19,20 @@ public class EditPlanService {
     private final UserUtil util;
 
     public void execute(Long id, EditPlanRequest editPlanRequest) {
+
         Plan plan = planRepository.findById(id)
                 .orElseThrow(NotFoundPlanException::new);
+
+        Boolean completed = plan.getCompleted();
 
         if (!(plan.getMember() == util.currentUser())) {
             throw new NoEditPermissionException();
         }
 
-        Boolean completed = editPlanRequest.getCompleted();
+        if (!Objects.equals(editPlanRequest.getCompleted(), "true") && !Objects.equals(editPlanRequest.getCompleted(), "false")) {
+            String comp = editPlanRequest.getCompleted();
 
-        if (completed == null) {
-            completed = plan.getCompleted();
+            completed = !Objects.equals(comp, "true");
         }
 
         plan.editPlan(editPlanRequest, completed);
