@@ -35,7 +35,7 @@ public class PlanController {
     @PostMapping("/edit/{id}")
     public ResponseEntity<Void> editPlan(@PathVariable Long id, @RequestBody @Valid EditPlanRequest editPlanRequest) {
         editPlanService.execute(id, editPlanRequest);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
