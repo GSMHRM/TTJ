@@ -23,6 +23,7 @@ public class PlanDetailService  {
         Plan plan = planRepository.findByMemberAndId(member, id);
 
         return DetailPlanResponse.builder()
+                .planId(plan.getId())
                 .title(plan.getTitle())
                 .content(plan.getContent())
                 .check(plan.getCompleted())
