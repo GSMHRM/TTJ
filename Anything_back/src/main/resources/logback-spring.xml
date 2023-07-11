@@ -12,7 +12,7 @@
         </rollingPolicy>
         <encoder>
             <charset>utf8</charset>
-            <pattern>%d %p %C{1.} [%t] %m%n</pattern>
+            <pattern>%d %p %C{1} [%t] %m%n</pattern>
         </encoder>
     </appender>
 
@@ -24,7 +24,7 @@
         </rollingPolicy>
         <encoder>
             <charset>utf8</charset>
-            <pattern>%d %p %C{1.} [%t] %m%n</pattern>
+            <pattern>%d %p %C{1} [%t] %m%n</pattern>
         </encoder>
     </appender>
 
