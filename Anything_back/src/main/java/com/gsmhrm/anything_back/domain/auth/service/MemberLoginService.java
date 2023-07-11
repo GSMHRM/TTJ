@@ -42,7 +42,8 @@ public class MemberLoginService {
         return SignInResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .expiredAt(tokenProvider.getExpiredAtToken())
+                .AccessExpiredAt(tokenProvider.getExpiredAtToken())
+                .RefreshExpiredAt(tokenProvider.getExpiredRefreshToken())
                 .build();
     }
 }

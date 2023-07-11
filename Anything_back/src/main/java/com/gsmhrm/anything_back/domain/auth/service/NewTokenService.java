@@ -31,7 +31,7 @@ public class NewTokenService {
 
         String accessToken = tokenProvider.generatedAccessToken(email);
         String refreshToken = tokenProvider.generatedRefreshToken(email);
-        ZonedDateTime expiredTime = tokenProvider.getExpiredAtToken(accessToken, jwtProperties.getAccessSecret());
+        ZonedDateTime AccessExpiredTime = tokenProvider.getExpiredAtToken(accessToken, jwtProperties.getAccessSecret());
 
         token.exchangeRefreshToken(refreshToken);
         refreshTokenRepository.save(token);
@@ -39,7 +39,8 @@ public class NewTokenService {
         return NewTokenResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .expiredAt(expiredTime)
+                .AccessExpiredAt(AccessExpiredTime)
+                .RefreshExpiredAt(tokenProvider.getExpiredRefreshToken())
                 .build();
     }
 }
