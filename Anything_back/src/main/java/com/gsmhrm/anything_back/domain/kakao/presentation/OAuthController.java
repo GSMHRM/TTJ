@@ -25,7 +25,7 @@ public class OAuthController {
         return kakaoUserService.kakaoLogin(code, response);
     }
 
-    @RequestMapping("/ouath2/logout")
+    @RequestMapping("/oauth2/logout")
     @DeleteMapping
     public ResponseEntity<Void> kakaoLogout(@RequestHeader("Authorization") String accessToken) {
         memberLogoutService.execute(accessToken);
