@@ -2,7 +2,7 @@ package com.gsmhrm.anything_back.domain.kakao.service;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.gsmhrm.anything_back.domain.kakao.presentation.dto.KakaoUserInfo;
+import com.gsmhrm.anything_back.domain.auth.entity.RefreshToken;
 import com.gsmhrm.anything_back.global.annotation.RollbackService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import java.net.URL;
 @Slf4j
 public class OAuthService {
 
-    public String getKakaoAccessToken(String code) {
+    public String[] getKakaoAccessToken(String code) {
 
         String accessToken = "";
         String refresh_Token ="";
@@ -34,8 +34,8 @@ public class OAuthService {
             BufferedWriter bw = new BufferedWriter((new OutputStreamWriter(conn.getOutputStream())));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
-            sb.append("&client_id={code}");
-            sb.append("&redirect_uri=http://localhost:9040/api/oauth/kakao");
+            sb.append("&client_id=").append("4bbe95e89282ad5bee0185c4aa3b470c");
+            sb.append("&redirect_uri=http://localhost:9040/oauth2/kakao");
             sb.append("&code=").append(code);
             bw.write(sb.toString());
             bw.flush();
@@ -56,15 +56,10 @@ public class OAuthService {
             log.info("response Body : " + result);
 
             //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
-            JsonParser jsonParser = new JsonParser();
-            JsonElement jsonElement = jsonParser.parse(result.toString());
+            JsonElement jsonElement = JsonParser.parseString(result.toString());
 
             accessToken = jsonElement.getAsJsonObject().get("access_token").getAsString();
             refresh_Token = jsonElement.getAsJsonObject().get("refresh_token").getAsString();
-
-
-            log.info("access_token : " + accessToken);
-            log.info("refresh_token : " + refresh_Token);
 
             br.close();
             bw.close();
@@ -72,12 +67,19 @@ public class OAuthService {
             throw new RuntimeException(e);
         }
 
-        return accessToken;
+        String[] tokens = new String[2];
+        tokens[0] = accessToken;
+        tokens[1] = refresh_Token;
+
+        return tokens;
     }
 
-    public void createKakaoUser(String token) {
+    public void createKakaoUser(String[] token) {
 
         String reqURL = "https://kapi.kakao.com/v2/user/me";
+
+        String accessToken = token[0];
+        String refreshToken = token[1];
 
         //access_token을 이용하여 사용자 정보 조회
         try {
@@ -86,7 +88,7 @@ public class OAuthService {
 
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
-            conn.setRequestProperty("Authorization", "Bearer " + token); //전송할 header 작성, access_token전송
+            conn.setRequestProperty("Authorization", "Bearer " + accessToken); //전송할 header 작성, access_token전송
 
             //결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
@@ -103,18 +105,17 @@ public class OAuthService {
             System.out.println("response body : " + result);
 
             //Gson 라이브러리로 JSON파싱
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result.toString());
+            JsonElement element = JsonParser.parseString(result.toString());
 
             long id = element.getAsJsonObject().get("id").getAsLong();
+
             boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
+
             String email = "";
+
             if (hasEmail) {
                 email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
             }
-
-            System.out.println("id : " + id);
-            System.out.println("email : " + email);
 
             log.info("id : " + id);
             log.info("email : " + email);

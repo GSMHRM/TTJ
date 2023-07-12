@@ -29,6 +29,8 @@ public class MemberDetails implements UserDetails {
         return member.getName();
     }
 
+    public String getEmail() { return member.getEmail(); }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

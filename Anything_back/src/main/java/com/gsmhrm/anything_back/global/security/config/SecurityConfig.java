@@ -42,8 +42,6 @@ public class SecurityConfig {
                 .cors().configurationSource(corsConfigurationSource()).and()
                 .csrf().disable();
         http
-                .oauth2Login().disable();
-        http
                 .httpBasic().disable() //UI, UX Disable
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -56,6 +54,7 @@ public class SecurityConfig {
                 .requestMatchers("/plan/**", "/plan").authenticated()
                 .requestMatchers("/user/**", "/user").authenticated()
                 .requestMatchers("/swagger-ui.html").permitAll()
+                .requestMatchers("/oauth2/**").permitAll()
                 .anyRequest().denyAll();
         http
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
