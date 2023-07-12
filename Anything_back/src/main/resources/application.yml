@@ -11,6 +11,26 @@ spring:
     url: ${DB_URL}
     password: ${DB_PASSWORD}
 
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${CLIENT_ID}
+            redirect-uri: ${REDIRECT_URL}
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST
+            client-name: Kakao
+            scope:
+              - profile_nickname
+              - account_email
+        provider:
+          kakao:
+            authorization-uri: ${AUTH_URI}
+            token-uri: ${TOKEN_URI}
+            user-info-uri: ${USER_INFO_URI}
+            user-name-attribute: id
+
   mail:
     host: ${MAIL_HOST}
     port: ${MAIL_PORT}
