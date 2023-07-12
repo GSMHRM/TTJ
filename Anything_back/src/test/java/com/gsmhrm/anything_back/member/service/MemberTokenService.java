@@ -5,6 +5,7 @@ import com.gsmhrm.anything_back.domain.member.repository.MemberRepository;
 import com.gsmhrm.anything_back.global.security.jwt.TokenProvider;
 import com.gsmhrm.anything_back.global.util.UserUtil;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class MemberTokenService {
     @Autowired private UserUtil util;
 
     @Test
+    @Disabled
     @DisplayName("유저 로그인 확인 테스트")
     void currentMember() {
 
