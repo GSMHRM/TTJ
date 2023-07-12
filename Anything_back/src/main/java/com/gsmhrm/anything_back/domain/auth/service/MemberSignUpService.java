@@ -58,9 +58,7 @@ public class MemberSignUpService {
                      .build();
 
              memberRepository.save(kakaoMember);
-         } else {
-             throw new DuplicatedEmailException();
-         }
+         } else return kakaoMember;
 
          return kakaoMember;
      }
