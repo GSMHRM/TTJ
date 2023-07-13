@@ -1,8 +1,10 @@
 package com.gsmhrm.anything_back.domain.kakao.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.gsmhrm.anything_back.domain.auth.entity.KakaoAuth;
 import com.gsmhrm.anything_back.domain.auth.entity.RefreshToken;
 import com.gsmhrm.anything_back.domain.auth.presentation.dto.response.SignInResponse;
+import com.gsmhrm.anything_back.domain.auth.repository.KakaoAuthRepository;
 import com.gsmhrm.anything_back.domain.auth.repository.RefreshTokenRepository;
 import com.gsmhrm.anything_back.domain.auth.service.MemberSignUpService;
 import com.gsmhrm.anything_back.domain.kakao.presentation.dto.KakaoUserInfo;
@@ -27,6 +29,7 @@ public class KakaoUserService {
     private final GetKakaoInfoService getKakaoUserInfo;
     private final MemberSignUpService memberSignUpService;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final KakaoAuthRepository kakaoAuthRepository;
 
     public SignInResponse kakaoLogin(String code, HttpServletResponse response) throws JsonProcessingException {
         // 1. "인가 코드"로 "액세스 토큰" 요청
@@ -39,16 +42,19 @@ public class KakaoUserService {
         Member kakaoMember = memberSignUpService.execute(kakaoUserInfo);
 
         // 4. 강제 로그인 처리
-        forceLogin(kakaoMember);
+        forceLogin(kakaoMember, tokens);
 
         // 5. response Header에 JWT 토큰 추가
         return kakaoUsersAuthorizationInput(response, kakaoMember);
     }
 
-    private void forceLogin(Member kakaoMember) {
+    private void forceLogin(Member kakaoMember, String[] tokens) {
         MemberDetails memberDetails = new MemberDetails(kakaoMember);
         Authentication authentication = new UsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        KakaoAuth kakaoAuth = new KakaoAuth(kakaoMember.getEmail(), tokens[0], tokens[1]);
+        kakaoAuthRepository.save(kakaoAuth);
     }
 
     private SignInResponse kakaoUsersAuthorizationInput(HttpServletResponse response, Member kakaoMember) {
