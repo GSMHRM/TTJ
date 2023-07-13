@@ -53,7 +53,7 @@ public class KakaoUserService {
         Authentication authentication = new UsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        KakaoAuth kakaoAuth = new KakaoAuth(kakaoMember.getEmail(), tokens[0], tokens[1]);
+        KakaoAuth kakaoAuth = new KakaoAuth(kakaoMember.getEmail(), tokens[0], tokens[1], tokenProvider.getREFRESH_TOKEN_EXPIRE_TIME());
         kakaoAuthRepository.save(kakaoAuth);
     }
 

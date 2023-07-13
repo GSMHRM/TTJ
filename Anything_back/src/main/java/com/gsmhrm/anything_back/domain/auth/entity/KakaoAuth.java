@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 
 @Getter
 @NoArgsConstructor
@@ -20,6 +21,9 @@ public class KakaoAuth {
     private String accessToken;
 
     private String refreshToken;
+
+    @TimeToLive
+    private Long expiredAt;
 
     public void changeToken(String accessToken, String refreshToken) {
         this.accessToken = accessToken;

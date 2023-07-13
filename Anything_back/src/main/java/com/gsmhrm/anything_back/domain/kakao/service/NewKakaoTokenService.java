@@ -50,7 +50,15 @@ public class NewKakaoTokenService {
 
         String accessToken = jsonNode.get("access_token").asText();
         String refreshToken = jsonNode.get("refresh_token").asText();
+        String expires_in = jsonNode.get("expires_in").asText();
+        String refresh_token_expires_in = "";
 
-        return new String[] {accessToken, refreshToken};
+        if (refreshToken == null) {
+            return new String[] {accessToken, expires_in};
+        } else {
+            refresh_token_expires_in = jsonNode.get("refresh_token_expires_in").asText();
+        }
+
+        return new String[] {accessToken, expires_in, refreshToken, refresh_token_expires_in};
     }
 }

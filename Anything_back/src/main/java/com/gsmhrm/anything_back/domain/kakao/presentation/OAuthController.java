@@ -36,6 +36,7 @@ public class OAuthController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @RequestMapping("oauth2/newToken")
     @PatchMapping
     public ResponseEntity<NewTokenResponse> kakaoReToken(@RequestHeader("RefreshToken") String token) throws JsonProcessingException {
         NewTokenResponse newTokenResponse = newTokenService.execute(token);

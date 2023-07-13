@@ -43,7 +43,13 @@ public class NewTokenService {
             String[] tokens = newKakaoTokenService.execute(auth);
             KakaoAuth kakaoAuth = kakaoAuthRepository.findById(email)
                             .orElseThrow(UserNotFoundException::new);
-            kakaoAuth.changeToken(tokens[0], tokens[1]);
+
+            if(tokens.length >= 3) {
+                kakaoAuth.changeToken(tokens[0], tokens[2]);
+            }
+            else kakaoAuth.changeToken(tokens[0], auth.getRefreshToken());
+
+            kakaoAuthRepository.save(kakaoAuth);
         }
 
         if (!token.getRefreshToken().equals(requestToken)) {
