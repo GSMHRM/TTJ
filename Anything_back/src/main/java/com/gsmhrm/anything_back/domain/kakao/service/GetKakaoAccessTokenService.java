@@ -22,7 +22,7 @@ public class GetKakaoAccessTokenService {
     private String REDIRECT_URI;
 
 
-    public String getAccessToken(String code) throws JsonProcessingException {
+    public String[] getAccessToken(String code) throws JsonProcessingException {
         // HTTP Header 생성
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -50,6 +50,10 @@ public class GetKakaoAccessTokenService {
         log.info(responseBody);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(responseBody);
-        return jsonNode.get("access_token").asText();
+
+        String accessToken = jsonNode.get("access_token").asText();
+        String refreshToken = jsonNode.get("refresh_token").asText();
+
+        return new String[]{accessToken, refreshToken};
     }
 }

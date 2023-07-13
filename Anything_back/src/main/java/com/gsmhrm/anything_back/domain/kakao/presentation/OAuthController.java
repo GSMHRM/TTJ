@@ -1,6 +1,7 @@
 package com.gsmhrm.anything_back.domain.kakao.presentation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.gsmhrm.anything_back.domain.auth.presentation.dto.response.SignInResponse;
 import com.gsmhrm.anything_back.domain.auth.service.MemberLogoutService;
 import com.gsmhrm.anything_back.domain.kakao.presentation.dto.KakaoUserInfo;
 import com.gsmhrm.anything_back.domain.kakao.service.KakaoUserService;
@@ -21,8 +22,9 @@ public class OAuthController {
     @RequestMapping("/oauth2/kakao")
     @ResponseBody
     @GetMapping
-    public KakaoUserInfo handleKakao(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException {
-        return kakaoUserService.kakaoLogin(code, response);
+    public ResponseEntity<SignInResponse> handleKakao(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException {
+        SignInResponse signInResponse = kakaoUserService.kakaoLogin(code, response);
+        return new ResponseEntity<>(signInResponse, HttpStatus.OK);
     }
 
     @RequestMapping("/oauth2/logout")
