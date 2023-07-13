@@ -1,5 +1,6 @@
 package com.gsmhrm.anything_back.domain.auth.presentation;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gsmhrm.anything_back.domain.auth.presentation.dto.request.SignInRequest;
 import com.gsmhrm.anything_back.domain.auth.presentation.dto.request.SignUpRequest;
 import com.gsmhrm.anything_back.domain.auth.presentation.dto.response.NewTokenResponse;
@@ -37,7 +38,7 @@ public class AuthController {
         }
 
         @DeleteMapping
-        public ResponseEntity<?> logout(@RequestHeader("Authorization")String accessToken) {
+        public ResponseEntity<?> logout(@RequestHeader("Authorization")String accessToken) throws JsonProcessingException {
             logoutService.execute(accessToken);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

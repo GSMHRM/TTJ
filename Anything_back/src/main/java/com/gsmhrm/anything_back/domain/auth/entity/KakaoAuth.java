@@ -19,7 +19,7 @@ public class KakaoAuth {
 
     private String refreshToken;
 
-    public void changeAccessToken(String accessToken, String refreshToken) {
+    public void changeToken(String accessToken, String refreshToken) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }

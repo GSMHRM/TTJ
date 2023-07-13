@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gsmhrm.anything_back.domain.auth.presentation.dto.response.NewTokenResponse;
 import com.gsmhrm.anything_back.domain.auth.presentation.dto.response.SignInResponse;
 import com.gsmhrm.anything_back.domain.auth.service.MemberLogoutService;
+import com.gsmhrm.anything_back.domain.auth.service.NewTokenService;
 import com.gsmhrm.anything_back.domain.kakao.presentation.dto.KakaoUserInfo;
 import com.gsmhrm.anything_back.domain.kakao.service.KakaoUserService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
 public class OAuthController {
 
     private final KakaoUserService kakaoUserService;
-
     private final MemberLogoutService memberLogoutService;
+    private final NewTokenService newTokenService;
 
     @RequestMapping("/oauth2/kakao")
     @ResponseBody
@@ -35,8 +36,9 @@ public class OAuthController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-//    @PatchMapping
-//    public NewTokenResponse kakaoReToken() {
-//
-//    }
+    @PatchMapping
+    public ResponseEntity<NewTokenResponse> kakaoReToken(@RequestHeader("RefreshToken") String token) {
+        NewTokenResponse newTokenResponse = newTokenService.execute(token);
+        return new ResponseEntity<>(newTokenResponse, HttpStatus.OK);
+    }
 }
