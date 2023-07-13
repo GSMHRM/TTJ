@@ -44,7 +44,7 @@ public class AuthController {
         }
 
         @PatchMapping
-        public ResponseEntity<NewTokenResponse> reIssueToken(@RequestHeader("RefreshToken") String token) {
+        public ResponseEntity<NewTokenResponse> reIssueToken(@RequestHeader("RefreshToken") String token) throws JsonProcessingException {
             NewTokenResponse newTokenResponse = newTokenService.execute(token);
             return new ResponseEntity<>(newTokenResponse, HttpStatus.OK);
         }

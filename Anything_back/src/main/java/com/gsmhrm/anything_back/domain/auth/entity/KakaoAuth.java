@@ -1,5 +1,6 @@
 package com.gsmhrm.anything_back.domain.auth.entity;
 
+import org.springframework.data.annotation.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.data.redis.core.RedisHash;
 @RedisHash(value = "kakaoAuth")
 public class KakaoAuth {
 
+    @Id
     private String email;
 
     private String accessToken;
