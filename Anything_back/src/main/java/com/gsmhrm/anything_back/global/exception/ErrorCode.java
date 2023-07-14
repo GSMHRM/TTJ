@@ -23,7 +23,8 @@ public enum ErrorCode {
     CANT_SEND_EMAIL("이메일을 보내는데 실패했습니다." , 400),
     NOT_FOUND_PLAN("게시물을 찾을수 없습니다.", 404),
     NO_AUTH_DELETE("이 계획을 지울 권한이 없습니다.", 403),
-    NO_AUTH_EDIT("이 계획을 수정할 권한이 없습니다.", 403);
+    NO_AUTH_EDIT("이 계획을 수정할 권한이 없습니다.", 403),
+    NOT_CHANGE_CONTENT("어떤 변경점도 존재하지않음.", 409);
 
     private final String message;
     private final int status;
