@@ -41,29 +41,37 @@ public class EditPlanService {
         Plan plan = planRepository.findById(id)
                 .orElseThrow(NotFoundPlanException::new);
 
-        Boolean completed = plan.getCompleted();
-        LocalDateTime sTime;
-        LocalDateTime eTime;
-
-        if (!(plan.getMember() == util.currentUser())) {
+        if (!plan.getMember().equals(util.currentUser())) {
             throw new NoEditPermissionException();
         }
 
-        if (!Objects.equals(editPlanRequest.getCompleted(), "true") && !Objects.equals(editPlanRequest.getCompleted(), "false")) {
-            String comp = editPlanRequest.getCompleted();
-            completed = !Objects.equals(comp, "true");
-        }
+        Boolean completed = getCompletedStatus(editPlanRequest);
+        LocalDateTime startTime = getStartTime(editPlanRequest, plan);
+        LocalDateTime endTime = getEndTime(editPlanRequest, plan);
 
-        if (editPlanRequest.getStart_Time() == null) {
-            sTime = plan.getStart_Time();
-        } else sTime = editPlanRequest.getStart_Time();
-
-        if(editPlanRequest.getEnd_Time() == null) {
-            eTime = plan.getEnd_Time();
-        } else eTime = editPlanRequest.getEnd_Time();
-
-        plan.editPlan(editPlanRequest, completed, sTime, eTime);
+        plan.editPlan(editPlanRequest, completed, startTime, endTime);
 
         planRepository.save(plan);
     }
+
+    private Boolean getCompletedStatus(EditPlanRequest editPlanRequest) {
+        String completedValue = editPlanRequest.getCompleted();
+        if (Objects.equals(completedValue, "true")) {
+            return true;
+        } else if (Objects.equals(completedValue, "false")) {
+            return false;
+        }
+        return !Objects.equals(completedValue, "true");
+    }
+
+    private LocalDateTime getStartTime(EditPlanRequest editPlanRequest, Plan plan) {
+        LocalDateTime startTime = editPlanRequest.getStart_Time();
+        return startTime != null ? startTime : plan.getStart_Time();
+    }
+
+    private LocalDateTime getEndTime(EditPlanRequest editPlanRequest, Plan plan) {
+        LocalDateTime endTime = editPlanRequest.getEnd_Time();
+        return endTime != null ? endTime : plan.getEnd_Time();
+    }
+
 }
