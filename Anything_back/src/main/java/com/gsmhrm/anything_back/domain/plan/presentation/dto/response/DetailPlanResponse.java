@@ -19,6 +19,10 @@ public class DetailPlanResponse {
 
     private Boolean check;
 
+    private LocalDateTime start_Time;
+
+    private LocalDateTime end_Time;
+
     private LocalDateTime createDate;
 
     private LocalDateTime editedDate;

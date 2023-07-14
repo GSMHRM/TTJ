@@ -5,16 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class EditPlanRequest {
 
-    @NotBlank(message = "제목은 필수입니다.")
     private String title;
 
-    @NotBlank(message = "내용은 필수입니다.")
     private String content;
 
     private String completed;
+
+    private LocalDateTime start_Time;
+
+    private LocalDateTime end_Time;
 }

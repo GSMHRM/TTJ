@@ -10,6 +10,7 @@ import com.gsmhrm.anything_back.global.annotation.RollbackService;
 import com.gsmhrm.anything_back.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -41,6 +42,8 @@ public class EditPlanService {
                 .orElseThrow(NotFoundPlanException::new);
 
         Boolean completed = plan.getCompleted();
+        LocalDateTime sTime;
+        LocalDateTime eTime;
 
         if (!(plan.getMember() == util.currentUser())) {
             throw new NoEditPermissionException();
@@ -51,7 +54,15 @@ public class EditPlanService {
             completed = !Objects.equals(comp, "true");
         }
 
-        plan.editPlan(editPlanRequest, completed);
+        if (editPlanRequest.getStart_Time() == null) {
+            sTime = plan.getStart_Time();
+        } else sTime = editPlanRequest.getStart_Time();
+
+        if(editPlanRequest.getEnd_Time() == null) {
+            eTime = plan.getEnd_Time();
+        } else eTime = editPlanRequest.getEnd_Time();
+
+        plan.editPlan(editPlanRequest, completed, sTime, eTime);
 
         planRepository.save(plan);
     }

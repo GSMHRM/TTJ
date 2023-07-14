@@ -31,12 +31,18 @@ public class Plan {
 
     private Boolean completed;
 
+    private LocalDateTime start_Time;
+
+    private LocalDateTime end_Time;
+
     private LocalDateTime createTime;
 
     private LocalDateTime editTime;
-    public void editPlan(EditPlanRequest editPlanRequest, Boolean completed) {
+    public void editPlan(EditPlanRequest editPlanRequest, Boolean completed, LocalDateTime startTime, LocalDateTime editTime) {
         this.title = editPlanRequest.getTitle();
         this.content = editPlanRequest.getContent();
+        this.start_Time = startTime;
+        this.end_Time = editTime;
         this.completed = completed;
         this.editTime = LocalDateTime.now();
     }

@@ -27,6 +27,8 @@ public class PlanDetailService  {
                 .title(plan.getTitle())
                 .content(plan.getContent())
                 .check(plan.getCompleted())
+                .start_Time(plan.getStart_Time())
+                .end_Time(plan.getEnd_Time())
                 .createDate(plan.getCreateTime())
                 .editedDate(plan.getEditTime())
                 .build();

@@ -23,6 +23,8 @@ public class CreatePlanService {
                 .title(createPlanRequest.getTitle())
                 .content(createPlanRequest.getContent())
                 .completed(false)
+                .start_Time(createPlanRequest.getStart_Time())
+                .end_Time(createPlanRequest.getEnd_Time())
                 .createTime(LocalDateTime.now())
                 .editTime(LocalDateTime.now())
                 .build();
