@@ -21,5 +21,6 @@ public class MemberIntro {
     @JoinColumn(name = "user_id")
     private Member member;
 
+    @Column(length = 30)
     private String intro;
 }

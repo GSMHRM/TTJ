@@ -1,7 +1,9 @@
 package com.gsmhrm.anything_back.domain.member.presentation;
 
 import com.gsmhrm.anything_back.domain.member.presentation.dto.request.ChangePasswordRequest;
+import com.gsmhrm.anything_back.domain.member.presentation.dto.request.CreateInfoRequest;
 import com.gsmhrm.anything_back.domain.member.service.ChangePasswordService;
+import com.gsmhrm.anything_back.domain.member.service.CreateMemberInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
@@ -19,10 +21,18 @@ public class MemberController {
 
     private ChangePasswordService changePasswordService;
 
+    private CreateMemberInfoService createMemberInfoService;
+
     @ApiOperation(value = "비밀번호를 변경하는 메소드")
     @PostMapping("/change")
     public ResponseEntity<?> changePasswordService(@RequestBody @Valid ChangePasswordRequest changePasswordRequest) {
         changePasswordService.execute(changePasswordRequest);
         return new ResponseEntity<>(HttpStatus.IM_USED);
+    }
+
+    @RequestMapping("/info/create")
+    public ResponseEntity<?> createInfo(@RequestBody @Valid CreateInfoRequest createInfoRequest) {
+        createMemberInfoService.execute(createInfoRequest);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
