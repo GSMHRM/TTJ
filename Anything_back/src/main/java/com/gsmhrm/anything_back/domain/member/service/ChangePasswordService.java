@@ -20,6 +20,7 @@ public class ChangePasswordService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserUtil util;
+    private final MemberRepository memberRepository;
 
     @ApiResponses({
             @ApiResponse(code=204, message="비밀번호 변경 완료"),
@@ -36,8 +37,10 @@ public class ChangePasswordService {
 
         if (!Objects.equals(changePasswordRequest.getWant_ps(), changePasswordRequest.getWant_ps_too())) {
             throw new MisMatchPasswordException();
-        }   
+        }
 
         member.changePassword(passwordEncoder.encode(changePasswordRequest.getWant_ps()));
+
+        memberRepository.save(member);
     }
 }
