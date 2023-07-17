@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private ChangePasswordService changePasswordService;
-    private CreateMemberInfoService createMemberInfoService;
+    private final ChangePasswordService changePasswordService;
+    private final CreateMemberInfoService createMemberInfoService;
 
     @ApiOperation(value = "비밀번호를 변경하는 메소드")
     @PostMapping("/change")
@@ -31,8 +31,7 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.IM_USED);
     }
 
-    @RequestMapping("/info")
-    @PostMapping
+    @PostMapping("/info")
     public ResponseEntity<?> createInfo(@RequestBody @Valid CreateInfoRequest createInfoRequest) {
         createMemberInfoService.execute(createInfoRequest);
         return new ResponseEntity<>(HttpStatus.CREATED);
