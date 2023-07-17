@@ -38,11 +38,11 @@ public class Plan {
     private LocalDateTime createTime;
 
     private LocalDateTime editTime;
-    public void editPlan(EditPlanRequest editPlanRequest, Boolean completed, LocalDateTime startTime, LocalDateTime editTime) {
+    public void editPlan(EditPlanRequest editPlanRequest, Boolean completed, LocalDateTime startTime, LocalDateTime end_Time) {
         this.title = editPlanRequest.getTitle();
         this.content = editPlanRequest.getContent();
         this.start_Time = startTime;
-        this.end_Time = editTime;
+        this.end_Time = end_Time;
         this.completed = completed;
         this.editTime = LocalDateTime.now();
     }
