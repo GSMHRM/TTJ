@@ -54,6 +54,7 @@ public class SecurityConfig {
                 .requestMatchers("/plan/**", "/plan").authenticated()
                 .requestMatchers("/user/**", "/user").authenticated()
                 .requestMatchers("/swagger-ui.html").permitAll()
+                .requestMatchers("/info/**").authenticated()
                 .requestMatchers("/oauth2/**").permitAll()
                 .anyRequest().denyAll();
         http
