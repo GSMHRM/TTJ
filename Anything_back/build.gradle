@@ -53,6 +53,9 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
 
     implementation group: 'commons-httpclient', name: 'commons-httpclient', version: '3.1'
+
+    implementation 'com.example:pretty-converter:1.0.0' // Replace with the actual coordinates
+
 }
 
 tasks.named('test') {

@@ -5,6 +5,10 @@ spring:
       max-request-size: 10MB
       enabled: true
 
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+
   datasource:
     driver-class-name: ${DB_CLASS}
     username: ${DB_USER}
