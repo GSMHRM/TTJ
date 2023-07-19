@@ -9,6 +9,7 @@ import com.gsmhrm.anything_back.domain.auth.service.MemberLoginService;
 import com.gsmhrm.anything_back.domain.auth.service.MemberLogoutService;
 import com.gsmhrm.anything_back.domain.auth.service.MemberSignUpService;
 import com.gsmhrm.anything_back.domain.auth.service.NewTokenService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
