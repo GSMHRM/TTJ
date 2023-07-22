@@ -31,8 +31,6 @@ public class LogRequestFilter extends OncePerRequestFilter {
 
         log.info("client info = {}", request.getHeader("User-Agent"));
 
-        log.info("body = {}", request.getReader());
-
         filterChain.doFilter(request, response);
 
         log.info("response status = {}", response.getStatus());
