@@ -2,8 +2,8 @@ package com.gsmhrm.anything_back.global.security.config;
 
 import com.gsmhrm.anything_back.global.filter.ExceptionFilter;
 import com.gsmhrm.anything_back.global.filter.JwtRequestFilter;
+import com.gsmhrm.anything_back.global.logger.filter.CustomServletWrapperFilter;
 import com.gsmhrm.anything_back.global.logger.filter.LogRequestFilter;
-import com.gsmhrm.anything_back.global.security.handler.AccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -31,6 +30,7 @@ public class SecurityConfig {
     private final JwtRequestFilter jwtRequestFilter;
     private final ExceptionFilter exceptionFilter;
     private final LogRequestFilter logRequestFilter;
+    private final CustomServletWrapperFilter customServletWrapperFilter;
 
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception { //DSL 사용 보안구성
@@ -60,7 +60,9 @@ public class SecurityConfig {
         http
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(exceptionFilter, JwtRequestFilter.class)
-                .addFilterBefore(logRequestFilter, ExceptionFilter.class);
+                .addFilterBefore(logRequestFilter, ExceptionFilter.class)
+                .addFilterBefore(customServletWrapperFilter, ExceptionFilter.class);
+
         return http.build();
     }
 

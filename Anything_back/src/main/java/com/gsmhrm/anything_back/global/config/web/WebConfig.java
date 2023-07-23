@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.gsmhrm.anything_back.global.intercreptor.LoggingInterceptor;
+import com.gsmhrm.anything_back.global.interceptor.LoggingInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -23,13 +22,12 @@ import java.util.List;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
-    private final LoggingInterceptor loggingInterceptor;
+    private final ObjectMapper objectMapper;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loggingInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/vendor/**", "/css/*", "/img/*");
+        registry.addInterceptor(new LoggingInterceptor(objectMapper))
+                .excludePathPatterns("/css/**", "/images/**", "/js/**");
     }
 
     @Override
