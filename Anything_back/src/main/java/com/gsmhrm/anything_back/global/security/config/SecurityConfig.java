@@ -2,6 +2,7 @@ package com.gsmhrm.anything_back.global.security.config;
 
 import com.gsmhrm.anything_back.global.filter.ExceptionFilter;
 import com.gsmhrm.anything_back.global.filter.JwtRequestFilter;
+import com.gsmhrm.anything_back.global.logger.filter.CustomServletWrapperFilter;
 import com.gsmhrm.anything_back.global.logger.filter.LogRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +30,7 @@ public class SecurityConfig {
     private final JwtRequestFilter jwtRequestFilter;
     private final ExceptionFilter exceptionFilter;
     private final LogRequestFilter logRequestFilter;
+    private final CustomServletWrapperFilter customServletWrapperFilter;
 
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception { //DSL 사용 보안구성
@@ -58,7 +60,9 @@ public class SecurityConfig {
         http
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(exceptionFilter, JwtRequestFilter.class)
-                .addFilterBefore(logRequestFilter, ExceptionFilter.class);
+                .addFilterBefore(logRequestFilter, ExceptionFilter.class)
+                .addFilterBefore(customServletWrapperFilter, ExceptionFilter.class);
+
         return http.build();
     }
 
