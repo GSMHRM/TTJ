@@ -38,13 +38,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         if (token != null && !token.isBlank()) {
 
-            Authentication authentication = tokenProvider.authenticationToken(token);
+            Authentication authentication = tokenProvider.authentication(token);
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             log.info("current Email = " + authentication.getName());
         }
-        
+
         filterChain.doFilter(request, response);
     }
 }

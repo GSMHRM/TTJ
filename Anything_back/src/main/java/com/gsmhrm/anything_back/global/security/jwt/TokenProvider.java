@@ -1,19 +1,20 @@
 package com.gsmhrm.anything_back.global.security.jwt;
 
+import com.gsmhrm.anything_back.global.security.auth.MemberDetailsService;
 import com.gsmhrm.anything_back.global.security.exception.TokenExpiredException;
 import com.gsmhrm.anything_back.global.security.exception.TokenNotValidException;
-import com.gsmhrm.anything_back.global.security.auth.MemberDetailsService;
 import com.gsmhrm.anything_back.global.security.jwt.properties.JwtProperties;
+import com.gsmhrm.anything_back.global.security.jwt.properties.TokenTimeProperties;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -24,88 +25,109 @@ import java.util.Date;
 public class TokenProvider {
 
     private final MemberDetailsService memberDetailsService;
+
     private final JwtProperties jwtProperties;
-    private final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 120;
-    private final long REFRESH_TOKEN_EXPIRE_TIME = ACCESS_TOKEN_EXPIRE_TIME * 12 * 7;
+
+    private final TokenTimeProperties tokenTimeProperties;
 
     @AllArgsConstructor
-    private enum TokenType {
-        ACCESS_TOKEN("accessToken"),
-        REFRESH_TOKEN("refreshToken");
+    private enum TokenObject {
+        ACCESS_TYPE("access"),
+        REFRESH_TYPE("refresh"),
+        TOKEN_PREFIX("Bearer "),
+        AUTHORITY("authority");
         String value;
     }
 
-    @AllArgsConstructor
-    private enum TokenClaimName {
-        USER_EMAIL("email"),
-        TOKEN_TYPE("tokenType");
-        String value;
+    public ZonedDateTime accessExpiredTime() {
+
+        return ZonedDateTime.now().plusSeconds(tokenTimeProperties.getAccessTime());
     }
 
-    private Key getSignkey(String secretKey) {
-        byte[] bytes = secretKey.getBytes(StandardCharsets.UTF_8);
-        return Keys.hmacShaKeyFor(bytes);
+    public ZonedDateTime refreshExpiredTime() {
+
+        return ZonedDateTime.now().plusSeconds(tokenTimeProperties.getRefreshTime());
     }
 
-    private String generateToken(String userEmail, TokenType tokenType, String secret, long expireTime) {
-        final Claims claims = Jwts.claims();
-        claims.put(TokenClaimName.USER_EMAIL.value, userEmail);
-        claims.put(TokenClaimName.TOKEN_TYPE.value, tokenType);
+    public String generateAccessToken(String email) {
+
+        return generateToken(email, TokenObject.ACCESS_TYPE.value, jwtProperties.getAccessSecret(), tokenTimeProperties.getAccessTime());
+    }
+
+    public String generateRefreshToken(String email) {
+
+        return generateToken(email, TokenObject.REFRESH_TYPE.value, jwtProperties.getRefreshSecret(), tokenTimeProperties.getRefreshTime());
+    }
+
+    public Authentication authentication(String token) {
+
+        UserDetails userDetails = memberDetailsService.loadUserByUsername(getTokenSubject(token, jwtProperties.getAccessSecret()));
+
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
+    public String resolveToken(HttpServletRequest request) {
+
+        String token = request.getHeader("Authorization");
+
+        if(token == null) {
+            return null;
+        }
+
+        return parseToken(token);
+    }
+
+    public String exactEmailFromRefreshToken(String refresh) {
+        return getTokenSubject(refresh, jwtProperties.getRefreshSecret());
+    }
+
+    public String generateToken(String email, String type, Key secret, Long exp) {
+
+        final Claims claims = Jwts.claims().setSubject(email);
+
+        claims.put("type", type);
+
         return Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .signWith(secret, SignatureAlgorithm.HS256)
                 .setClaims(claims)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+expireTime))
-                .signWith(getSignkey(secret), SignatureAlgorithm.HS256)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + exp * 1000))
                 .compact();
     }
 
+    public String parseToken(String token) {
 
-    public Claims extractAllClaims(String token, String secret) {
-        token = token.replace("Bearer", "");
+        if(token.startsWith(TokenObject.TOKEN_PREFIX.value)) {
+            return token.replace(TokenObject.TOKEN_PREFIX.value, "");
+
+        } else {
+            return null;
+        }
+    }
+
+    private Claims getTokenBody(String token, Key secret) {
 
         try {
+
             return Jwts.parserBuilder()
-                    .setSigningKey(getSignkey(secret))
+                    .setSigningKey(secret)
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
+
         } catch (ExpiredJwtException e) {
+
             throw new TokenExpiredException();
+
         } catch (JwtException e) {
+
             throw new TokenNotValidException();
         }
     }
 
-    public ZonedDateTime getExpiredAtToken() {
-        return ZonedDateTime.now().plusSeconds(ACCESS_TOKEN_EXPIRE_TIME);
-    }
+    private String getTokenSubject(String token, Key secret) {
 
-    public ZonedDateTime getExpiredRefreshToken() {
-        return ZonedDateTime.now().plusSeconds(REFRESH_TOKEN_EXPIRE_TIME);
-    }
-
-    public String getUserEmail(String token, String secret) {
-        return extractAllClaims(token, secret).get(TokenClaimName.USER_EMAIL.value, String.class);
-    }
-
-    public String getTokenType(String token, String secret) {
-        return extractAllClaims(token, secret).get(TokenClaimName.TOKEN_TYPE.value, String.class);
-    }
-
-    public String generatedAccessToken(String email) {
-        return generateToken(email, TokenType.ACCESS_TOKEN, jwtProperties.getAccessSecret(), ACCESS_TOKEN_EXPIRE_TIME);
-    }
-
-    public String generatedRefreshToken(String email) {
-        return generateToken(email, TokenType.REFRESH_TOKEN, jwtProperties.getRefreshSecret(), REFRESH_TOKEN_EXPIRE_TIME);
-    }
-
-    public UsernamePasswordAuthenticationToken authenticationToken(String email) {
-        UserDetails userDetails = memberDetailsService.loadUserByUsername(email);
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-    }
-
-    public ZonedDateTime getExpiredAtToken(String token, String secret) {
-        return ZonedDateTime.now().plusSeconds(ACCESS_TOKEN_EXPIRE_TIME);
+        return getTokenBody(token, secret).getSubject();
     }
 }

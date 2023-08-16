@@ -31,7 +31,7 @@ public class NewTokenService {
     private final NewKakaoTokenService newKakaoTokenService;
 
     public NewTokenResponse execute(String requestToken) throws JsonProcessingException {
-        String email = tokenProvider.getUserEmail(requestToken, jwtProperties.getRefreshSecret());
+        String email = tokenProvider.exactEmailFromRefreshToken(requestToken);
         log.info(email);
         RefreshToken token = refreshTokenRepository.findById(email)
                 .orElseThrow(RefreshTokenNotFoundException::new);
@@ -56,9 +56,9 @@ public class NewTokenService {
             throw new TokenNotValidException();
         }
 
-        String accessToken = tokenProvider.generatedAccessToken(email);
-        String refreshToken = tokenProvider.generatedRefreshToken(email);
-        ZonedDateTime AccessExpiredTime = tokenProvider.getExpiredAtToken(accessToken, jwtProperties.getAccessSecret());
+        String accessToken = tokenProvider.generateAccessToken(email);
+        String refreshToken = tokenProvider.generateRefreshToken(email);
+        ZonedDateTime AccessExpiredTime = tokenProvider.accessExpiredTime();
 
         token.exchangeRefreshToken(refreshToken);
         refreshTokenRepository.save(token);
@@ -67,7 +67,7 @@ public class NewTokenService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .AccessExpiredAt(AccessExpiredTime)
-                .RefreshExpiredAt(tokenProvider.getExpiredRefreshToken())
+                .RefreshExpiredAt(tokenProvider.refreshExpiredTime())
                 .build();
     }
 }
