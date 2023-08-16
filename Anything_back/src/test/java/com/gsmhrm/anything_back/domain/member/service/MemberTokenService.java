@@ -1,4 +1,4 @@
-package com.gsmhrm.anything_back.member.service;
+package com.gsmhrm.anything_back.domain.member.service;
 
 import com.gsmhrm.anything_back.domain.member.entity.Member;
 import com.gsmhrm.anything_back.domain.member.repository.MemberRepository;
