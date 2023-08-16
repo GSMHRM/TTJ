@@ -1,14 +1,26 @@
 package com.gsmhrm.anything_back.global.security.jwt.properties;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@Getter
-@AllArgsConstructor
+import java.security.Key;
+
 @ConfigurationProperties(prefix = "jwt")
 public class JwtProperties {
 
-    private final String accessSecret;
-    private final String refreshSecret;
+    private final Key accessSecret;
+    private final Key refreshSecret;
+
+    public JwtProperties(String accessSecret, String refreshSecret) {
+        this.accessSecret = Keys.hmacShaKeyFor(accessSecret.getBytes());
+        this.refreshSecret = Keys.hmacShaKeyFor(refreshSecret.getBytes());
+    }
+
+    public Key getAccessSecret() {
+        return accessSecret;
+    }
+
+    public Key getRefreshSecret() {
+        return refreshSecret;
+    }
 }
