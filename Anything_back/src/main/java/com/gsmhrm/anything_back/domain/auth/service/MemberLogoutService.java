@@ -16,6 +16,8 @@ import com.gsmhrm.anything_back.global.security.jwt.TokenProvider;
 import com.gsmhrm.anything_back.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 
+import java.time.ZonedDateTime;
+
 @RollbackService
 @RequiredArgsConstructor
 public class MemberLogoutService {
@@ -54,7 +56,7 @@ public class MemberLogoutService {
             throw new BlackListAlreadyExistException();
         }
 
-        long expiredTime = tokenProvider.getACCESS_TOKEN_EXPIRE_TIME();
+        ZonedDateTime expiredTime = tokenProvider.accessExpiredTime();
 
         BlackList blackList = BlackList.builder()
                 .email(email)

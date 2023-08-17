@@ -33,17 +33,17 @@ public class MemberLoginService {
             throw new MisMatchPasswordException();
         }
 
-        String accessToken = tokenProvider.generatedAccessToken(request.getEmail());
-        String refreshToken = tokenProvider.generatedRefreshToken(request.getEmail());
-        RefreshToken tokenRedis = new RefreshToken(request.getEmail(), refreshToken, tokenProvider.getREFRESH_TOKEN_EXPIRE_TIME());
+        String accessToken = tokenProvider.generateAccessToken(request.getEmail());
+        String refreshToken = tokenProvider.generateRefreshToken(request.getEmail());
+        RefreshToken tokenRedis = new RefreshToken(request.getEmail(), refreshToken, tokenProvider.getTokenTimeProperties().getAccessTime());
 
         refreshTokenRepository.save(tokenRedis);
 
         return SignInResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .AccessExpiredAt(tokenProvider.getExpiredAtToken())
-                .RefreshExpiredAt(tokenProvider.getExpiredRefreshToken())
+                .AccessExpiredAt(tokenProvider.accessExpiredTime())
+                .RefreshExpiredAt(tokenProvider.refreshExpiredTime())
                 .build();
     }
 }

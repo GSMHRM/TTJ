@@ -53,22 +53,22 @@ public class KakaoUserService {
         Authentication authentication = new UsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        KakaoAuth kakaoAuth = new KakaoAuth(kakaoMember.getEmail(), tokens[0], tokens[1], tokenProvider.getREFRESH_TOKEN_EXPIRE_TIME());
+        KakaoAuth kakaoAuth = new KakaoAuth(kakaoMember.getEmail(), tokens[0], tokens[1], tokenProvider.getTokenTimeProperties().getAccessTime());
         kakaoAuthRepository.save(kakaoAuth);
     }
 
     private SignInResponse kakaoUsersAuthorizationInput(HttpServletResponse response, Member kakaoMember) {
 
-        String accessToken = tokenProvider.generatedAccessToken(kakaoMember.getEmail());
-        String refreshToken = tokenProvider.generatedRefreshToken(kakaoMember.getEmail());
-        RefreshToken redisToken = new RefreshToken(kakaoMember.getEmail(), refreshToken, tokenProvider.getREFRESH_TOKEN_EXPIRE_TIME());
+        String accessToken = tokenProvider.generateAccessToken(kakaoMember.getEmail());
+        String refreshToken = tokenProvider.generateRefreshToken(kakaoMember.getEmail());
+        RefreshToken redisToken = new RefreshToken(kakaoMember.getEmail(), refreshToken, tokenProvider.getTokenTimeProperties().getRefreshTime());
         refreshTokenRepository.save(redisToken);
 
         return SignInResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .AccessExpiredAt(tokenProvider.getExpiredAtToken())
-                .RefreshExpiredAt(tokenProvider.getExpiredRefreshToken())
+                .AccessExpiredAt(tokenProvider.accessExpiredTime())
+                .RefreshExpiredAt(tokenProvider.refreshExpiredTime())
                 .build();
     }
 }
