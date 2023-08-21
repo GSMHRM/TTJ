@@ -1,5 +1,6 @@
 package com.gsmhrm.anything_back.domain.member.service;
 
+import com.gsmhrm.anything_back.domain.auth.exception.UserNotFoundException;
 import com.gsmhrm.anything_back.domain.member.entity.Member;
 import com.gsmhrm.anything_back.domain.member.repository.MemberRepository;
 import com.gsmhrm.anything_back.global.security.jwt.TokenProvider;
@@ -11,10 +12,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.security.Security;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -28,7 +35,6 @@ public class MemberTokenService {
     @Autowired private UserUtil util;
 
     @Test
-    @Disabled
     @DisplayName("유저 로그인 확인 테스트")
     void currentMember() {
 
@@ -42,18 +48,19 @@ public class MemberTokenService {
         memberRepository.save(member);
 
         //WHEN
-
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 member.getEmail(),
                 member.getPassword()
         );
 
-        SecurityContext context = SecurityContextHolder.getContext();
-        context.setAuthentication(token);
-        System.out.println("context = " + context);
+        SecurityContextHolder.getContext().setAuthentication(token);
+        System.out.println("context = " + token);
 
         //then
-        String currentEmail = util.currentUser().getEmail();
-        assertEquals("zadzed1100@gmail.com", currentEmail);
+        Member currentMember = (Member) util.getMember()
+                .orElseThrow(UserNotFoundException::new);
+
+        System.out.println(currentMember.getEmail());
+        assertEquals("zadzed1100@gmail.com", currentMember.getEmail());
     }
 }
