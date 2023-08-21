@@ -26,6 +26,8 @@ public class MemberTest {
                 .password("1234")
                 .build();
 
-        Assertions.assertThat(member.getName()).isEqualTo("테스트이름");
+        memberRepository.save(member);
+
+        Assertions.assertThat(memberRepository.findByEmail("zadzed1100@gmail.com").get().getName().equals("테스트이름"));
     }
 }
