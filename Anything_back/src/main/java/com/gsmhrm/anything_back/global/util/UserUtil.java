@@ -8,6 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class UserUtil {
@@ -32,6 +34,21 @@ public class UserUtil {
             return memberName;
         } catch (NullPointerException e) {
             return "no";
+        }
+    }
+
+    public Optional<?> getMember() {
+        try {
+            String email;
+            Object principal =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if(principal instanceof UserDetails) {
+                email = ((Member) principal).getEmail();
+            } else {
+                email = principal.toString();
+            }
+            return memberRepository.findByEmail(email);
+        } catch (NullPointerException e) {
+            return Optional.empty();
         }
     }
 }
