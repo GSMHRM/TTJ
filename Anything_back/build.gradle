@@ -30,6 +30,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    testImplementation 'org.projectlombok:lombok:1.18.22'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -43,7 +44,6 @@ dependencies {
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version : '3.0.4'
 
-
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     runtimeOnly 'com.mysql:mysql-connector-j'
 
@@ -56,6 +56,19 @@ dependencies {
     implementation group: 'commons-httpclient', name: 'commons-httpclient', version: '3.1'
 
     implementation 'commons-io:commons-io:2.8.0'
+
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.15.0-rc3'
+
+    testImplementation("org.springframework.security:spring-security-test")
+
+    testImplementation('org.junit.jupiter:junit-jupiter')
+    testImplementation('org.junit.jupiter:junit-jupiter-api')
+    testImplementation('org.mockito:mockito-core')
+    testImplementation('org.mockito:mockito-junit-jupiter')
+    testImplementation('org.hamcrest:hamcrest')
+    testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine')
+
 }
 
 tasks.named('test') {
