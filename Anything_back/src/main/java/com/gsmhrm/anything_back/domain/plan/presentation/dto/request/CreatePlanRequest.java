@@ -1,6 +1,7 @@
 package com.gsmhrm.anything_back.domain.plan.presentation.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,9 +19,9 @@ public class CreatePlanRequest {
     @NotBlank(message = "내용은 필수입니다.")
     private String content;
 
-    @NotBlank(message = "시작 시간은 필수입니다.")
+    @NotNull(message = "시작 시간은 필수입니다.")
     private LocalDateTime start_Time;
 
-    @NotBlank(message = "끝나는 시간은 필수입니다.")
+    @NotNull(message = "End 시간은 필수입니다.")
     private LocalDateTime end_Time;
 }
