@@ -57,11 +57,17 @@ dependencies {
 
     implementation 'commons-io:commons-io:2.8.0'
 
-    testImplementation 'org.mockito:mockito-core:4.8.0'
-    testImplementation 'org.springframework.security:spring-security-test:5.7.3'
-
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.15.0-rc3'
+
+    testImplementation("org.springframework.security:spring-security-test")
+
+    testImplementation('org.junit.jupiter:junit-jupiter')
+    testImplementation('org.junit.jupiter:junit-jupiter-api')
+    testImplementation('org.mockito:mockito-core')
+    testImplementation('org.mockito:mockito-junit-jupiter')
+    testImplementation('org.hamcrest:hamcrest')
+    testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine')
 
 }
 

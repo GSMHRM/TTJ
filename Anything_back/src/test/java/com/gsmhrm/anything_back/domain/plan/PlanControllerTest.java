@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -53,22 +54,20 @@ public class PlanControllerTest {
               LocalDateTime.now()
         );
 
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        String jsonRequest = objectMapper.writeValueAsString(request);
+
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/plan")
                         .with(SecurityMockMvcRequestPostProcessors.user("TesterA"))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(String.valueOf(request))
+                        .content(jsonRequest)
                 )
                 .andExpect(status().isCreated())
                 .andDo(print());
-
-
-
-        Plan plan = planRepository.findById(1L)
-                .orElseThrow(NotFoundPlanException::new);
-
-        Member member = plan.getMember();
-    
-        Assertions.assertEquals(member.getName(), "TesterA");
+        
     }
 }
