@@ -124,4 +124,19 @@ public class PlanControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
+    @WithMockUser(username = "테스트이름")
+    @Test
+    @DisplayName("Plan Delete 테스트")
+    void deletePlanTest() throws Exception {
+
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/plan/{id}", 1L)
+                        .with(SecurityMockMvcRequestPostProcessors.user("테스트이름"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }
