@@ -125,18 +125,42 @@ public class PlanControllerTest {
                 .andDo(print());
     }
 
-    @WithMockUser(username = "테스트이름")
+    @WithMockUser(username = "TesterA")
     @Test
     @DisplayName("Plan Delete 테스트")
     void deletePlanTest() throws Exception {
 
+        Member member = Member.builder()
+                .email("zadzed1100@gmail.com")
+                .name("TesterA")
+                .password("1234")
+                .build();
+
+        memberRepository.save(member);
+
+        Plan plan = Plan.builder()
+                .id(2L)
+                .member(member)
+                .title("제목1번")
+                .content("제목1에대한 내용")
+                .completed(false)
+                .start_Time(LocalDateTime.now())
+                .end_Time(LocalDateTime.now())
+                .createTime(LocalDateTime.now())
+                .editTime(LocalDateTime.now())
+                .build();
+
+        planRepository.save(plan);
+
+        System.out.println("planRepository = " + planRepository.findAll());
+
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/plan/{id}", 1L)
-                        .with(SecurityMockMvcRequestPostProcessors.user("테스트이름"))
+                        .delete("/plan/delete/{id}", 2L)
+                        .with(SecurityMockMvcRequestPostProcessors.user("TesterA"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(print());
     }
 }
